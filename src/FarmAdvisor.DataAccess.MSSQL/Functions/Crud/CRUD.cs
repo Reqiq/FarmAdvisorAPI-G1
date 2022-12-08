@@ -10,7 +10,15 @@ using System.Threading.Tasks;
 
 namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
 {
+
+    public class Param<P> where P:unmanaged
+    {
+        public P param { get; set; }
+
+    }
+    
     public class CRUD:ICrud
+
     {
         public async Task<T> Create<T>(T ObjectForDB) where T : class
         {
@@ -34,8 +42,10 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
             {
                 using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
                 {
+                
 
-                var result = await context.FindAsync<T>(EntityID);
+
+                    var result = await context.FindAsync<T>(EntityID);
                     if (result != null)
                     {
                         return result;
@@ -56,6 +66,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
         {
             try
             {
+         
                 using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
                 {
 
@@ -71,7 +82,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
 
         }
 
-        public async Task<T> Update<T>(T NewEntity,Guid EntityID) where T : class
+        public async Task<T> Update<T>(Guid EntityID, T NewEntity) where T : class
         {
             try
             {
@@ -81,6 +92,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
                     var ObjFromDB = await context.FindAsync<T>(EntityID);
                     if (ObjFromDB!=null)
                     {
+
                         context.Entry(ObjFromDB).CurrentValues.SetValues(NewEntity);
                         await context.SaveChangesAsync();
                     }
@@ -119,19 +131,8 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
             }
 
         }
-     
-        ////ADD
-        
-        ////UPDATE
-        //addItemResult.Grade_Name = "Super Grade 7";
-        //    var updateResult = await crud.Update<Grade>(addItemResult, addItemResult.Grade_ID);
-        ////READ
-        //var readResult = await crud.Read<Grade>(5);
-        ////READ ALL FOR SPECIFIED ENTITY
-        //var readAllResult = await crud.ReadAll<Grade>();
-        ////DELETE
-        //var deleted = await crud.Delete<Grade>(4);
 
+        
     }
 
 
