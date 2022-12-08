@@ -8,7 +8,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
     {
         public AppConfiguration()
         {
-            SqlConnectionString = "Data Source=DESKTOP-PVN5LQR\\SQLEXPRESS;Initial Catalog=farm_api_try1;Integrated Security=True;TrustServerCertificate=True;";
+            SqlConnectionString = "Data Source=ADDDESKTOPNAME\\SQLEXPRESS;Initial Catalog=farm_api_try1;Integrated Security=True;TrustServerCertificate=True;";
         }
 
         public String SqlConnectionString { get; set; }
