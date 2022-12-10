@@ -6,7 +6,7 @@ using FarmAdvisor.DataAccess.AzureTableStorage.Models;
 
 namespace FarmAdvisor.DataAccess.AzureTableStorage.services
 {
-    public interface ITableStorageService
+    public interface ISensorDataStorageService
     {
         Task<SensorData> GetEntityAsync(string category, string id);
         Task<SensorData> UpsertEntityAsync(SensorData entity);

@@ -1,3 +1,4 @@
+using FarmAdvisor.DataAccess.AzureTableStorage.services;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,8 @@ namespace FarmAdvisor.HttpFunctions
     {
         public static void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddScoped<ISensorDataStorageService, SensorDataStorageService>();
+            services.AddScoped<IWeatherStorageService, WeatherStorageService>();
         }
 
 
