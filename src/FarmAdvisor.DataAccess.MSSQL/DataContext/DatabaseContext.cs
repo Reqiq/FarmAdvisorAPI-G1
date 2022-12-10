@@ -37,9 +37,13 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
+
         public DbSet<Farm> Farms { get; set; }
+
         public DbSet<Sensor> Sensors { get; set; }
+
         public DbSet<Notification> Notifications { get; set; }
+
         public DbSet<Field> Fields { get; set; }
     
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -60,7 +64,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<User>().HasMany<Farm>(us => us.Farms)
                 .WithMany(us => us.Users);
             #endregion
-
 
             #region Farm
             modelBuilder.Entity<Farm>().ToTable("farm");
@@ -86,7 +89,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
 
             #endregion
 
-
             #region Field
             modelBuilder.Entity<Field>().ToTable("field");
             //Primary Key & Identity Column
@@ -104,7 +106,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
 
 
             #endregion
-
 
             #region Sensor
             modelBuilder.Entity<Sensor>().ToTable("sensor");
@@ -144,8 +145,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
          
 
             #endregion
-
-
 
         }
     }
