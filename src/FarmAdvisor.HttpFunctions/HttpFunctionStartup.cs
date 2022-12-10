@@ -1,8 +1,11 @@
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using FarmAdvisor.Services.WeatherApi;
+using FarmAdvisor.Business;
 using System;
+using System.Net.Http;
+using FarmAdvisor.DataAccess.MSSQL.Functions.Crud;
+using FarmAdvisor.Business.Imitations;
 
 [assembly: FunctionsStartup(typeof(FarmAdvisor.HttpFunctions.HttpFunctionStartup))]
 
@@ -12,11 +15,11 @@ namespace FarmAdvisor.HttpFunctions
     {
         public static void ConfigureServices(IServiceCollection services)
         {
-            /* services.AddHttpClient<WeatherForecastApi>(client =>
-             {
-                 client.BaseAddress = new Uri("https://api.met.no/weatherapi/locationforecast/2.0/");
-             });*/
-            services.AddSingleton<WeatherForecastApi>();
+            services.AddTransient<CRUD>();
+            services.AddTransient<SensorsLogic>();
+            services.AddTransient<ScheduledTask>();
+            services.AddTransient<WeatherStorageService>();
+            services.AddHttpClient<WeatherForecastApi>();
         }
 
 
