@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
-
-
+using Microsoft.Identity.Client;
 
 namespace FarmAdvisor.DataAccess.MSSQL.DataContext
 {
