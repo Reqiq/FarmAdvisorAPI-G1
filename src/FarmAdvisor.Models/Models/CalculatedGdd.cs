@@ -9,12 +9,12 @@ namespace FarmAdvisor.Models.Models
 {
         public class CalculatedGdd: ITableEntity
     {
-        public DateOnly ComputedTime{ get; set; }
+        // public DateOnly ComputedTime{ get; set; }
         public string SensorId { get; set; }
         public double Value { get; set; } = 0;
-        public string PartitionKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string RowKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public DateTimeOffset? Timestamp { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ETag ETag { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string PartitionKey { get; set; }
+        public string RowKey { get; set; }
+        public DateTimeOffset? Timestamp { get; set; }
+        public ETag ETag { get; set; }
     }
 }
