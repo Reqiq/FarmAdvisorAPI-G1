@@ -17,7 +17,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
 
     }
     
-    public class CRUD:ICrud
+    public class Crud:ICrud
 
     {
         public async Task<T> Create<T>(T ObjectForDB) where T : class
