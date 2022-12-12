@@ -3,51 +3,53 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Azure.Data.Tables;
-using FarmAdvisor.DataAccess.AzureTableStorage.Models;
-using Microsoft.Extensions.Configuration;
+using FarmAdvisor.Models.Models;
 
 namespace FarmAdvisor.DataAccess.AzureTableStorage.services
 {
-    public class SensorDataStorageService : ISensorDataStorageService
+    public class TableStorageService : ITableStorageService
     {
 
-        private const string TableName = "SensorData";
-        private readonly IConfiguration _configuration;
         private readonly string connectionString;
+        private readonly string TableName;
 
-        public SensorDataStorageService(IConfiguration configuration)
+        public TableStorageService(string TableName)
         {
-            _configuration = configuration;
+            this.TableName = TableName;
             this.connectionString = "AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DefaultEndpointsProtocol=http;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;";
+            
         }
 
-        private async Task<TableClient> GetTableClient()
-        {
+        private async Task<TableClient> GetTableClient() {
             var serviceClient = new TableServiceClient(connectionString);
 
             var tableClient = serviceClient.GetTableClient(TableName);
             await tableClient.CreateIfNotExistsAsync();
+
             return tableClient;
         }
+        
 
-        public async Task<SensorData> GetEntityAsync(string paritionKey, string rowKey)
+        public async Task DeleteEntityAsync<T>(string PartitionKey, string RowKey) where T: class, ITableEntity, new()
         {
             var tableClient = await GetTableClient();
-            return await tableClient.GetEntityAsync<SensorData>(paritionKey, rowKey);
+
+            await tableClient.DeleteEntityAsync(PartitionKey, RowKey);
         }
 
-        public async Task<SensorData> UpsertEntityAsync(SensorData entity)
+        public async Task<T> GetEntityAsync<T>(string PartitionKey, string RowKey) where T : class, ITableEntity, new()
         {
             var tableClient = await GetTableClient();
-            await tableClient.UpsertEntityAsync(entity);
+            
+            return await tableClient.GetEntityAsync<T>(PartitionKey, RowKey);
+        }
+
+        public async Task<T> UpsertEntityAsync<T>(T entity) where T : class, ITableEntity, new()
+        {
+            var tableClient = await GetTableClient();
+
+            await tableClient.UpsertEntityAsync<T>(entity);
             return entity;
         }
-
-        public async Task DeleteEntityAsync(string paritionKey, string rowKey)
-        {
-            var tableClient = await GetTableClient();
-            await tableClient.DeleteEntityAsync(paritionKey, rowKey);
-        }
-
     }
 }

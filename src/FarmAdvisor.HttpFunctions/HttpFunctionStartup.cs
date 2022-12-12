@@ -11,8 +11,7 @@ namespace FarmAdvisor.HttpFunctions
     {
         public static void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<ISensorDataStorageService, SensorDataStorageService>();
-            services.AddScoped<IWeatherStorageService, WeatherStorageService>();
+            services.AddScoped<ITableStorageService, TableStorageService>();
         }
 
 
