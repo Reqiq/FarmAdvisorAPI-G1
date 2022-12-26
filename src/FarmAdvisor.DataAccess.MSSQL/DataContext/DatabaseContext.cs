@@ -139,9 +139,9 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<Notification>().Property(us => us.Title).HasMaxLength(100).HasColumnName("title");
             modelBuilder.Entity<Notification>().Property(us => us.Message).HasMaxLength(200).HasColumnName("message");
             modelBuilder.Entity<Notification>().Property(us => us.SentBy).HasConversion(
-            v => v.ToString(),v => (Enum)Enum.Parse(typeof(Enum), v)).HasColumnName("sent_by");
+            v => v!.ToString(),v => (Enum)Enum.Parse(typeof(Enum), v)).HasColumnName("sent_by");
             modelBuilder.Entity<Notification>().Property(us => us.Status).HasConversion(
-            v => v.ToString(),v => (Enum)Enum.Parse(typeof(Enum), v)).HasColumnName("status");
+            v => v!.ToString(),v => (Enum)Enum.Parse(typeof(Enum), v)).HasColumnName("status");
          
 
             #endregion

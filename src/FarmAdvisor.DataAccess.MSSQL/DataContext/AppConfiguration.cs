@@ -20,8 +20,8 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
                 SqlConnectionString = LocalSettings.Value!;
             }
             else
-            {  
-                throw new Exception("must provide a connection string for mssql db");
+            {
+                throw new InvalidDataException("must provide a connection string for mssql db");
             }
 
 

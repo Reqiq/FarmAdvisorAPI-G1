@@ -9,7 +9,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Entities
     public class Sensor
     {
         public Guid SensorId { get; set; }
-        public string SerialNumber{ get; set; }
+        public string? SerialNumber{ get; set; }
         public DateTime LastCommunication { get; set; }
 
         public int BatteryStatus { get; set; }
