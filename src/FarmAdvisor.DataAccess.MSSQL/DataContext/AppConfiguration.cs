@@ -15,7 +15,15 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             ConfigBuilder.AddJsonFile(path, false);
             var root = ConfigBuilder.Build();
             var LocalSettings = root.GetSection("ConnectionStrings:DefaultConnection");
-            SqlConnectionString = LocalSettings.Value;
+            if (LocalSettings != null)
+            {
+                SqlConnectionString = LocalSettings.Value!;
+            }
+            else
+            {  
+                throw new Exception("must provide a connection string for mssql db");
+            }
+
 
         }
 

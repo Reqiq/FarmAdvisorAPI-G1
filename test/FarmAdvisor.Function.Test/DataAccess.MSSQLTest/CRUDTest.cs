@@ -39,7 +39,7 @@ namespace FarmAdvisor.Function.Test.DataAcess.MSSQLTest
             MockDbContext.Setup(us=>us.Set<User>()).Returns(UserMock.Object);
             MockDbContext.Setup(us => us.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(1));
 
-            var UserCrud = new CRUD();
+            var UserCrud = new Crud();
             var result = await UserCrud.Create(User);
 
             Assert.NotNull(result);
@@ -61,7 +61,7 @@ namespace FarmAdvisor.Function.Test.DataAcess.MSSQLTest
             MockDbContext.Setup(us => us.Set<User>()).Returns(UserMock.Object);
             MockDbContext.Setup(us => us.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(1));
 
-            var UserCrud = new CRUD();
+            var UserCrud = new Crud();
 
 
               Assert.ThrowsAsync<DbUpdateException>(async ()=>await UserCrud.Create(User));
@@ -78,7 +78,7 @@ namespace FarmAdvisor.Function.Test.DataAcess.MSSQLTest
             MockDbContext.Setup(us => us.Set<User>()).Returns(UserMock.Object);
             MockDbContext.Setup(us => us.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(1));
 
-            var UserCrud = new CRUD();
+            var UserCrud = new Crud();
             var result = await UserCrud.FindAll<User>();
 
             Assert.NotNull(result);
@@ -98,7 +98,7 @@ namespace FarmAdvisor.Function.Test.DataAcess.MSSQLTest
             MockDbContext.Setup(us => us.Set<User>()).Returns(UserMock.Object);
             MockDbContext.Setup(us => us.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(1));
 
-            var UserCrud = new CRUD();
+            var UserCrud = new Crud();
             var TestUser = await UserCrud.Create(new User
             {
                 Name = "Test",
@@ -125,10 +125,13 @@ namespace FarmAdvisor.Function.Test.DataAcess.MSSQLTest
             MockDbContext.Setup(us => us.Set<User>()).Returns(UserMock.Object);
             MockDbContext.Setup(us => us.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(1));
 
-            var UserCrud = new CRUD();
-            var result = await UserCrud.Find<User>(new Guid("D5367A3A-D98C-4A24-11F4-05DAD77C01C2"));
+            var UserCrud = new Crud();
+            await Assert.ThrowsAnyAsync<System.Exception>( async ()=> await UserCrud.Find<User>(new Guid("D5367A3A-D98C-4A24-11F4-05DAD77C01C2")));
 
-            Assert.Null(result);
+           // Assert.Throws<ArgumentException>( ()=> result);
+           // Assert.NotNull(result);
+           // Assert.True(true);
+
 
         }
 
@@ -145,7 +148,7 @@ namespace FarmAdvisor.Function.Test.DataAcess.MSSQLTest
             MockDbContext.Setup(us => us.Set<User>()).Returns(UserMock.Object);
             MockDbContext.Setup(us => us.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(1));
 
-            var UserCrud = new CRUD();
+            var UserCrud = new Crud();
 
             var oldUser = await UserCrud.Create(new User
             {
@@ -193,7 +196,7 @@ namespace FarmAdvisor.Function.Test.DataAcess.MSSQLTest
             MockDbContext.Setup(us => us.Set<User>()).Returns(UserMock.Object);
             MockDbContext.Setup(us => us.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(1));
 
-            var UserCrud = new CRUD();
+            var UserCrud = new Crud();
 
             var allUsers = await UserCrud.FindAll<User>();
 
@@ -220,7 +223,7 @@ namespace FarmAdvisor.Function.Test.DataAcess.MSSQLTest
             MockDbContext.Setup(us => us.Set<User>()).Returns(UserMock.Object);
             MockDbContext.Setup(us => us.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(1));
 
-            var UserCrud = new CRUD();
+            var UserCrud = new Crud();
 
             var result = await UserCrud.Delete<User>(new Guid());
 

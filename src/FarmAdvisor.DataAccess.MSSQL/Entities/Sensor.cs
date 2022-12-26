@@ -21,11 +21,11 @@ namespace FarmAdvisor.DataAccess.MSSQL.Entities
         public double Lat { get; set; }
         public double Long { get; set; }
 
-        public Enum State { get; set; }
+        public Enum? State { get; set; }
 
 
-        public virtual Field Field { get; set; }
-        public virtual ICollection<User> Users { get; set; }    
+        public virtual Field? Field { get; set; }
+        public virtual ICollection<User>? Users { get; set; }    
 
 
 

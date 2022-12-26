@@ -29,11 +29,10 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
                 await context.SaveChangesAsync();
                 return ObjectForDB;
             }
-            catch
+            catch (Exception error)
             {
-                throw;
+                throw new Exception("error creating user with specified data", error);
             }
-
         }
 
         public async Task<T> Find<T>(Guid EntityID) where T : class
@@ -52,13 +51,14 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
                     }
                     else
                     {
-                        return null;
+                        throw new Exception("user not found");
                     }
 
                 }
             }
-            catch {
-                throw;
+            catch (Exception error) { 
+
+                throw new Exception("error finding user with specified Id", error); 
             }
 
         }
@@ -75,9 +75,9 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
               
                 }
             }
-            catch
+            catch (Exception error)
             {
-                throw;
+                throw new Exception("error finding the users", error);
             }
 
         }
@@ -97,13 +97,13 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
                         await context.SaveChangesAsync();
                     }
 
-                    return ObjFromDB;
+                    return ObjFromDB!;
 
                 }
             }
-            catch
+            catch(Exception error)
             {
-                throw;
+                throw new Exception("error updating the specified user", error );
             }
 
         }
@@ -125,9 +125,9 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
 
                 }
             }
-            catch
+            catch(Exception error)
             {
-                throw;
+                throw new Exception("error deleting user with specified Id", error);
             }
 
         }
