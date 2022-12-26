@@ -14,7 +14,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Entities
         public string? AuthId{ get; set; }
 
        public ICollection<Farm> Farms { get; set; }
-       public virtual ICollection<Sensor> Sensors { get; set;}
+       public virtual ICollection<Sensor>? Sensors { get; set;}
 
 
     }

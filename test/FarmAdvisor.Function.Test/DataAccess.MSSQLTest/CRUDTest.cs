@@ -35,7 +35,7 @@ namespace FarmAdvisor.Function.Test.DataAcess.MSSQLTest
 
             UserMock.Setup(us => us.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
                 .Callback((User user, CancellationToken token) => { })
-                .Returns((User user, CancellationToken token) =>  ValueTask.FromResult((EntityEntry<User>)null) );
+                .Returns((User user, CancellationToken token) =>  ValueTask.FromResult((EntityEntry<User>)null!) );
             MockDbContext.Setup(us=>us.Set<User>()).Returns(UserMock.Object);
             MockDbContext.Setup(us => us.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(1));
 
@@ -57,14 +57,15 @@ namespace FarmAdvisor.Function.Test.DataAcess.MSSQLTest
 
             UserMock.Setup(us => us.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
                 .Callback((User user, CancellationToken token) => { })
-                .Returns((User user, CancellationToken token) => ValueTask.FromResult((EntityEntry<User>)null));
+                .Returns((User user, CancellationToken token) => ValueTask.FromResult((EntityEntry<User>)null!));
             MockDbContext.Setup(us => us.Set<User>()).Returns(UserMock.Object);
             MockDbContext.Setup(us => us.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(1));
 
             var UserCrud = new Crud();
 
 
-              Assert.ThrowsAsync<DbUpdateException>(async ()=>await UserCrud.Create(User));
+            await Assert.ThrowsAnyAsync<DbUpdateException>(async () => await UserCrud.Create(User));
+
         }
 
         [Fact]
@@ -74,7 +75,7 @@ namespace FarmAdvisor.Function.Test.DataAcess.MSSQLTest
 
             UserMock.Setup(us => us.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
                 .Callback((User user, CancellationToken token) => { })
-                .Returns((User user, CancellationToken token) => ValueTask.FromResult((EntityEntry<User>)null));
+                .Returns((User user, CancellationToken token) => ValueTask.FromResult((EntityEntry<User>)null!));
             MockDbContext.Setup(us => us.Set<User>()).Returns(UserMock.Object);
             MockDbContext.Setup(us => us.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(1));
 
@@ -94,7 +95,7 @@ namespace FarmAdvisor.Function.Test.DataAcess.MSSQLTest
 
             UserMock.Setup(us => us.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
                 .Callback((User user, CancellationToken token) => { })
-                .Returns((User user, CancellationToken token) => ValueTask.FromResult((EntityEntry<User>)null));
+                .Returns((User user, CancellationToken token) => ValueTask.FromResult((EntityEntry<User>)null!));
             MockDbContext.Setup(us => us.Set<User>()).Returns(UserMock.Object);
             MockDbContext.Setup(us => us.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(1));
 
@@ -121,12 +122,12 @@ namespace FarmAdvisor.Function.Test.DataAcess.MSSQLTest
 
             UserMock.Setup(us => us.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
                 .Callback((User user, CancellationToken token) => { })
-                .Returns((User user, CancellationToken token) => ValueTask.FromResult((EntityEntry<User>)null));
+                .Returns((User user, CancellationToken token) => ValueTask.FromResult((EntityEntry<User>)null!));
             MockDbContext.Setup(us => us.Set<User>()).Returns(UserMock.Object);
             MockDbContext.Setup(us => us.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(1));
 
             var UserCrud = new Crud();
-            await Assert.ThrowsAnyAsync<System.Exception>( async ()=> await UserCrud.Find<User>(new Guid("D5367A3A-D98C-4A24-11F4-05DAD77C01C2")));
+            await Assert.ThrowsAnyAsync<KeyNotFoundException>( async ()=> await UserCrud.Find<User>(new Guid("D5367A3A-D98C-4A24-11F4-05DAD77C01C2")));
 
            // Assert.Throws<ArgumentException>( ()=> result);
            // Assert.NotNull(result);
@@ -144,7 +145,7 @@ namespace FarmAdvisor.Function.Test.DataAcess.MSSQLTest
 
             UserMock.Setup(us => us.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
                 .Callback((User user, CancellationToken token) => { })
-                .Returns((User user, CancellationToken token) => ValueTask.FromResult((EntityEntry<User>)null));
+                .Returns((User user, CancellationToken token) => ValueTask.FromResult((EntityEntry<User>)null!));
             MockDbContext.Setup(us => us.Set<User>()).Returns(UserMock.Object);
             MockDbContext.Setup(us => us.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(1));
 
@@ -192,7 +193,7 @@ namespace FarmAdvisor.Function.Test.DataAcess.MSSQLTest
 
             UserMock.Setup(us => us.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
                 .Callback((User user, CancellationToken token) => { })
-                .Returns((User user, CancellationToken token) => ValueTask.FromResult((EntityEntry<User>)null));
+                .Returns((User user, CancellationToken token) => ValueTask.FromResult((EntityEntry<User>)null!));
             MockDbContext.Setup(us => us.Set<User>()).Returns(UserMock.Object);
             MockDbContext.Setup(us => us.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(1));
 
@@ -219,7 +220,7 @@ namespace FarmAdvisor.Function.Test.DataAcess.MSSQLTest
 
             UserMock.Setup(us => us.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
                 .Callback((User user, CancellationToken token) => { })
-                .Returns((User user, CancellationToken token) => ValueTask.FromResult((EntityEntry<User>)null));
+                .Returns((User user, CancellationToken token) => ValueTask.FromResult((EntityEntry<User>)null!));
             MockDbContext.Setup(us => us.Set<User>()).Returns(UserMock.Object);
             MockDbContext.Setup(us => us.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(1));
 

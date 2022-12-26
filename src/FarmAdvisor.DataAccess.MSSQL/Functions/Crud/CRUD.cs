@@ -51,14 +51,14 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
                     }
                     else
                     {
-                        throw new Exception("user not found");
+                        throw new KeyNotFoundException("user not found");
                     }
 
                 }
             }
             catch (Exception error) { 
 
-                throw new Exception("error finding user with specified Id", error); 
+                throw new KeyNotFoundException("error finding user with specified Id", error); 
             }
 
         }
@@ -77,7 +77,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
             }
             catch (Exception error)
             {
-                throw new Exception("error finding the users", error);
+                throw new KeyNotFoundException("error finding the users", error);
             }
 
         }
@@ -103,7 +103,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
             }
             catch(Exception error)
             {
-                throw new Exception("error updating the specified user", error );
+                throw new KeyNotFoundException("error updating the specified user", error );
             }
 
         }
@@ -127,7 +127,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
             }
             catch(Exception error)
             {
-                throw new Exception("error deleting user with specified Id", error);
+                throw new KeyNotFoundException("error deleting user with specified Id", error);
             }
 
         }
