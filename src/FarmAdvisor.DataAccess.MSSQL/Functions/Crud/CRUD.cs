@@ -31,7 +31,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
             }
             catch (Exception error)
             {
-                throw new Exception("error creating user with specified data", error);
+                throw new DbUpdateException("error creating user with specified data", error);
             }
         }
 

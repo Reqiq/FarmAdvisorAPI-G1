@@ -16,11 +16,11 @@ namespace FarmAdvisor.DataAccess.MSSQL.Entities
 
         public string? Message { get; set; }
 
-        public Enum SentBy { get; set; }
+        public Enum? SentBy { get; set; }
 
-        public Enum Status { get; set; }
+        public Enum? Status { get; set; }
 
-        public virtual Farm Farm { get; set; }
+        public virtual Farm? Farm { get; set; }
 
     }
 }
