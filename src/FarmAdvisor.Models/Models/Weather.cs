@@ -14,8 +14,8 @@ namespace Busineess.Models
         public double RelativeHumidity { get; set; }
         public double WindFromDirection { get; set; }
         public double WindSpeed { get; set; }
-        public string PartitionKey { get; set; }
-        public string RowKey { get; set; }
+        public string? PartitionKey { get; set; }
+        public string? RowKey { get; set; }
         public DateTimeOffset? Timestamp { get; set; }
         public ETag ETag { get; set; }
     }
