@@ -92,7 +92,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
                     var ObjFromDB = await context.FindAsync<T>(EntityID);
                     if (ObjFromDB!=null)
                     {
-
                         context.Entry(ObjFromDB).CurrentValues.SetValues(NewEntity);
                         await context.SaveChangesAsync();
                     }

@@ -11,6 +11,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
     <PackageReference Include="Moq" Version="4.18.3" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -20,7 +21,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\FarmAdvisor.AppFunctions\FarmAdvisor_AppFunctions.csproj" />
+    <ProjectReference Include="..\..\src\FarmAdvisor.DataAccess.MSSQL\FarmAdvisor.DataAccess.MSSQL.csproj" />
     <ProjectReference Include="..\..\src\FarmAdvisor.HttpFunctions\FarmAdvisor_HttpFunctions.csproj" />
+    <ProjectReference Include="..\..\src\FarmAdvisor.Models\FarmAdvisor.Models.csproj" />
     <ProjectReference Include="..\FarmAdvisor.Common.Test\FarmAdvisor.Common.Test.csproj" />
   </ItemGroup>
 
