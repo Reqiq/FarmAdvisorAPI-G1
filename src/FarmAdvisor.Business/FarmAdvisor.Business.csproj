@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-  </ItemGroup>
+ 
 
     <PackageReference Include="Azure.Data.Tables" Version="12.7.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />

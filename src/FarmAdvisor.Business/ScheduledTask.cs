@@ -5,9 +5,9 @@ namespace FarmAdvisor.Business
     
     public class ScheduledTask
     {
-        public CRUD _Crud { get; set; }
+        public Crud _Crud { get; set; }
         public SensorsLogic sensorsLogic { get; set; }
-        public ScheduledTask(CRUD Crud, SensorsLogic sensorsLogic) {
+        public ScheduledTask(Crud Crud, SensorsLogic sensorsLogic) {
             _Crud= Crud;
             this.sensorsLogic= sensorsLogic;
         }

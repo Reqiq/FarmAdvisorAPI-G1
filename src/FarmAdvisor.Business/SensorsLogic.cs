@@ -8,9 +8,9 @@ namespace FarmAdvisor.Business
     {
         public WeatherForecastApi weatherForecastApi{ get; set; }
         public WeatherStorageService weatherStorageServer { get; set; }
-        public CRUD _Crud { get; set; }
+        public Crud _Crud { get; set; }
         private readonly double BaseTemp = 1;
-        public SensorsLogic(WeatherForecastApi weatherForecastApi,CRUD Crud, WeatherStorageService weatherStorageService)
+        public SensorsLogic(WeatherForecastApi weatherForecastApi,Crud Crud, WeatherStorageService weatherStorageService)
         {
             this.weatherForecastApi= weatherForecastApi;
             this.weatherStorageServer = weatherStorageService;

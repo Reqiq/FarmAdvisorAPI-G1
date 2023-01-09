@@ -9,7 +9,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
 {
     public class Test
     {
-        CRUD Crud = new CRUD();
+        Crud Crud = new Crud();
         public async void createUser()
         {
             var user = new User();
