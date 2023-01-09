@@ -24,8 +24,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
                 throw new InvalidDataException("must provide a connection string for mssql db");
             }
 
-
-            SqlConnectionString = "Data Source=DESKTOP-PVN5LQR\\SQLEXPRESS;Initial Catalog=farm_api_try1;Integrated Security=True;TrustServerCertificate=True;";
         }
 
         public String SqlConnectionString { get; set; }

@@ -140,16 +140,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<Sensor>().Property(us => us.LastForecastDate).HasColumnName("last_forecast_date");
             modelBuilder.Entity<Sensor>().Property(us => us.State).HasConversion(
             v => v!.ToString(), v => (Enum)Enum.Parse(typeof(Enum), v)).HasMaxLength(250).HasColumnName("state");
-            modelBuilder.Entity<Sensor>().Property(us => us.SerialNumber).IsRequired(true).HasMaxLength(100).HasColumnName("serial_number");
-            modelBuilder.Entity<Sensor>().Property(us => us.Long).IsRequired(true).HasColumnName("longitude");
-            modelBuilder.Entity<Sensor>().Property(us => us.Lat).IsRequired(true).HasColumnName("latitude");
-            modelBuilder.Entity<Sensor>().Property(us => us.LastCommunication).IsRequired(true).HasColumnName("last_communication");
-            modelBuilder.Entity<Sensor>().Property(us => us.BatteryStatus).IsRequired(true).HasColumnName("battery_status");
-            modelBuilder.Entity<Sensor>().Property(us => us.OptimalGDD).IsRequired(true).HasColumnName("optimal_gdd");
-            modelBuilder.Entity<Sensor>().Property(us => us.CuttingDateTimeCalculated).IsRequired(true).HasColumnName("estimated_date");
-            modelBuilder.Entity<Sensor>().Property(us => us.LastForecastDate).IsRequired(true).HasColumnName("last_forecast_date");
-            modelBuilder.Entity<Sensor>().Property(us => us.State).IsRequired(true).HasConversion(
-            v => v.ToString(), v => (Enum)Enum.Parse(typeof(Enum), v)).HasMaxLength(250).HasColumnName("state");
+            
 
             modelBuilder.Entity<Sensor>().HasMany<User>(us => us.Users)
                 .WithMany(us => us.Sensors);

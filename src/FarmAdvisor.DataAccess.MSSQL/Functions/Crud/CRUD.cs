@@ -41,9 +41,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
             {
                 using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
                 {
-                
-
-
                     var result = await context.FindAsync<T>(EntityID);
                     if (result != null)
                     {
@@ -130,9 +127,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
             }
 
         }
-
         
     }
-
 
 }
