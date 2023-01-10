@@ -62,14 +62,9 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<User>().Property(us => us.Email).HasMaxLength(100).HasColumnName("email");
             modelBuilder.Entity<User>().Property(us => us.Phone).HasColumnName("phone_number");
             modelBuilder.Entity<User>().Property(us => us.AuthId).HasMaxLength(250).HasColumnName("auth_id");
-            modelBuilder.Entity<User>().Property(us => us.UserID).IsRequired().HasColumnName("user_id");
-            //COLUMN SETTINGS 
-            modelBuilder.Entity<User>().Property(us => us.Name).IsRequired(true).HasMaxLength(100).HasColumnName("user_name");
-            modelBuilder.Entity<User>().Property(us => us.Email).IsRequired(true).HasMaxLength(100).HasColumnName("email");
-            modelBuilder.Entity<User>().Property(us => us.Phone).IsRequired(true).HasColumnName("phone_number");
-            modelBuilder.Entity<User>().Property(us => us.AuthId).IsRequired(true).HasMaxLength(250).HasColumnName("auth_id");
             modelBuilder.Entity<User>().HasMany<Farm>(us => us.Farms)
                 .WithMany(us => us.Users);
+           
             #endregion
 
 

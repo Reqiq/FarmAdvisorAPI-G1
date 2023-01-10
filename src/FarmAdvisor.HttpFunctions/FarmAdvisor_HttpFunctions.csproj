@@ -15,7 +15,6 @@
     <PackageReference Include="RimDev.Automation.StorageEmulator" Version="0.3.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FarmAdvisor.Business\FarmAdvisor.Business.csproj" />
     <ProjectReference Include="..\FarmAdvisor.DataAccess.MSSQL\FarmAdvisor.DataAccess.MSSQL.csproj" />
     <ProjectReference Include="..\FarmAdvisor.Models\FarmAdvisor.Models.csproj" />
   </ItemGroup>
@@ -32,6 +31,5 @@
     <ProjectReference Include="..\FarmAdvisor.Models\FarmAdvisor.Models.csproj" />
     <ProjectReference Include="..\FarmAdvisor.DataAccess.AzureTableStorage\FarmAdvisor.DataAccess.AzureTableStorage.csproj" />
     <ProjectReference Include="..\FarmAdvisor.DataAccess.MSSQL\FarmAdvisor.DataAccess.MSSQL.csproj" />
-    <ProjectReference Include="..\FarmAdvisor.Models\FarmAdvisor.Models.csproj" />
   </ItemGroup>
 </Project>
