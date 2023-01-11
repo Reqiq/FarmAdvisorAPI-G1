@@ -15,6 +15,7 @@
     <PackageReference Include="RimDev.Automation.StorageEmulator" Version="0.3.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FarmAdvisor.Commons\FarmAdvisor.Commons.csproj" />
     <ProjectReference Include="..\FarmAdvisor.DataAccess.MSSQL\FarmAdvisor.DataAccess.MSSQL.csproj" />
     <ProjectReference Include="..\FarmAdvisor.Models\FarmAdvisor.Models.csproj" />
   </ItemGroup>
