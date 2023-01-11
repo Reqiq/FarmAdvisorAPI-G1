@@ -8,7 +8,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
 {
     public class AppConfiguration
     {
-        public AppConfiguration()
+        /*public AppConfiguration()
         {
             var ConfigBuilder = new ConfigurationBuilder();
             var path = Path.Combine(Directory.GetCurrentDirectory(), "local.settings.json");
@@ -24,9 +24,9 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
                 throw new InvalidDataException("must provide a connection string for mssql db");
             }
 
-        }
+        }*/
 
-        public String SqlConnectionString { get; set; }
+        public String SqlConnectionString { get; set; } = "Data Source=DESKTOP-1B0AQP9;Initial Catalog=farm_api_try1;Integrated Security=True";
 
     }
 }
