@@ -9,13 +9,22 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using FarmAdvisor.DataAccess.MSSQL.Entities;
 using FarmAdvisor.DataAccess.MSSQL.Functions.Crud;
+using FarmAdvisor.DataAccess.MSSQL.Functions.Interfaces;
+using FarmAdvisor.DataAccess.MSSQL.DataContext;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace FarmAdvisor_HttpFunctions.Functions
 {
-    public static class UserApi
+    public class UserApi
     {
+        public ICrud _crud;
+        public UserApi(ICrud crud)
+        {
+            _crud= crud;
+        }
         [FunctionName("UserApi")]
-        public static async Task<ActionResult<User>> AddUser(
+        public async Task<ActionResult<User>> AddUser(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
@@ -25,18 +34,28 @@ namespace FarmAdvisor_HttpFunctions.Functions
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
 
-            string name = data?.name;
             string phone = data?.phone;
+
+            User prevUser;
+            using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
+            {
+                prevUser = await context.Users.FirstOrDefaultAsync(s => s.Phone == phone);
+            }
+            if (prevUser != null)
+            {
+                return new ConflictObjectResult("Phone exists");
+            }
+
+            string name = data?.name;
             string email = data?.email;
             string authId = data?.authId;
 
             var user = new User { Name = name, Phone = phone, Email = email, AuthId = authId };
 
-            var crud = new Crud();
             User responseMessage;
             try
             {
-                responseMessage = await crud.Create<User>(user);
+                responseMessage = await _crud.Create<User>(user);
             } catch (Exception ex)
             {
                 return new NotFoundObjectResult(ex);
@@ -46,18 +65,17 @@ namespace FarmAdvisor_HttpFunctions.Functions
 
 
         [FunctionName("UserApiNew")]
-        public static async Task<IActionResult> GetUserNew(
+        public async Task<IActionResult> GetUserNew(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "UserApi/{id}")] HttpRequest req, Guid id,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            var crud = new Crud();
             User responseMessage;
             
             try
             {
-                responseMessage = await crud.Find<User>(id);
+                responseMessage = await _crud.Find<User>(id);
             } catch (Exception ex)
             {
                 return new NotFoundObjectResult(ex);
@@ -65,7 +83,7 @@ namespace FarmAdvisor_HttpFunctions.Functions
             return new OkObjectResult(responseMessage);
         }
         [FunctionName("UserApiEdit")]
-        public static async Task<ActionResult<User>> EditUser(
+        public async Task<ActionResult<User>> EditUser(
             [HttpTrigger(AuthorizationLevel.Function, "put", Route = "UserApi/{id}")] HttpRequest req,Guid id,
             ILogger log)
         {
@@ -75,8 +93,7 @@ namespace FarmAdvisor_HttpFunctions.Functions
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
 
-            var crud = new Crud();
-            var user = await crud.Find<User>(id);
+            var user = await _crud.Find<User>(id);
 
             user.Name = data?.name;
             user.Phone = data?.phone;
@@ -87,7 +104,7 @@ namespace FarmAdvisor_HttpFunctions.Functions
             User responseMessage;
             try
             {
-                responseMessage = await crud.Update<User>(id, user);
+                responseMessage = await _crud.Update<User>(id, user);
             }
             catch (Exception ex)
             {
