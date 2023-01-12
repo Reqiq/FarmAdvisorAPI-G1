@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FarmAdvisor.DataAccess.MSSQL.Entities
+﻿namespace FarmAdvisor.Models.Models
 {
-    public class Sensor
+    public class SensorModel
     {
         public Guid SensorId { get; set; }
         public string? SerialNumber{ get; set; }
@@ -24,8 +18,8 @@ namespace FarmAdvisor.DataAccess.MSSQL.Entities
         public Enum? State { get; set; }
 
 
-        public virtual Field? Field { get; set; }
-        public virtual ICollection<User>? Users { get; set; }    
+        public FieldModel? Field { get; set; }
+        public ICollection<UserModel>? Users { get; set; }    
 
 
 

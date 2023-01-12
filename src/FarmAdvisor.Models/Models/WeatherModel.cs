@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Azure;
 using Azure.Data.Tables;
-namespace Busineess.Models
+namespace FarmAdvisor.Models.Models
 {
-    public class Weather: ITableEntity
+    public class WeatherModel: ITableEntity
     {
         public double AirPressureAtSeaLevel { get; set; }
         public double CloudAreaFraction { get; set; }
