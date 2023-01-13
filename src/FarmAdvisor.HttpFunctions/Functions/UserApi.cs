@@ -7,7 +7,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using FarmAdvisor.DataAccess.MSSQL.Entities;
+using FarmAdvisor.Models.Models;
 using FarmAdvisor.DataAccess.MSSQL.Functions.Crud;
 using FarmAdvisor.DataAccess.MSSQL.Functions.Interfaces;
 using FarmAdvisor.DataAccess.MSSQL.DataContext;
@@ -21,10 +21,10 @@ namespace FarmAdvisor_HttpFunctions.Functions
         public ICrud _crud;
         public UserApi(ICrud crud)
         {
-            _crud= crud;
+            _crud = crud;
         }
         [FunctionName("UserApi")]
-        public async Task<ActionResult<User>> AddUser(
+        public async Task<ActionResult<UserModel>> AddUser(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
@@ -36,7 +36,7 @@ namespace FarmAdvisor_HttpFunctions.Functions
 
             string phone = data?.phone;
 
-            User prevUser;
+            UserModel prevUser;
             using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
             {
                 prevUser = await context.Users.FirstOrDefaultAsync(s => s.Phone == phone);
@@ -50,13 +50,14 @@ namespace FarmAdvisor_HttpFunctions.Functions
             string email = data?.email;
             string authId = data?.authId;
 
-            var user = new User { Name = name, Phone = phone, Email = email, AuthId = authId };
+            var user = new UserModel { Name = name, Phone = phone, Email = email, AuthId = authId };
 
-            User responseMessage;
+            UserModel responseMessage;
             try
             {
-                responseMessage = await _crud.Create<User>(user);
-            } catch (Exception ex)
+                responseMessage = await _crud.Create<UserModel>(user);
+            }
+            catch (Exception ex)
             {
                 return new NotFoundObjectResult(ex);
             }
@@ -71,20 +72,21 @@ namespace FarmAdvisor_HttpFunctions.Functions
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            User responseMessage;
-            
+            UserModel responseMessage;
+
             try
             {
-                responseMessage = await _crud.Find<User>(id);
-            } catch (Exception ex)
+                responseMessage = await _crud.Find<UserModel>(id);
+            }
+            catch (Exception ex)
             {
                 return new NotFoundObjectResult(ex);
             }
             return new OkObjectResult(responseMessage);
         }
         [FunctionName("UserApiEdit")]
-        public async Task<ActionResult<User>> EditUser(
-            [HttpTrigger(AuthorizationLevel.Function, "put", Route = "UserApi/{id}")] HttpRequest req,Guid id,
+        public async Task<ActionResult<UserModel>> EditUser(
+            [HttpTrigger(AuthorizationLevel.Function, "put", Route = "UserApi/{id}")] HttpRequest req, Guid id,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
@@ -93,7 +95,7 @@ namespace FarmAdvisor_HttpFunctions.Functions
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
 
-            var user = await _crud.Find<User>(id);
+            var user = await _crud.Find<UserModel>(id);
 
             user.Name = data?.name;
             user.Phone = data?.phone;
@@ -101,10 +103,10 @@ namespace FarmAdvisor_HttpFunctions.Functions
             user.AuthId = data?.authId;
 
 
-            User responseMessage;
+            UserModel responseMessage;
             try
             {
-                responseMessage = await _crud.Update<User>(id, user);
+                responseMessage = await _crud.Update<UserModel>(id, user);
             }
             catch (Exception ex)
             {

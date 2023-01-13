@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 
 
-using FarmAdvisor.DataAccess.MSSQL.Entities;
+
 using FarmAdvisor.DataAccess.MSSQL.Functions.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -87,7 +87,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Functions.Crud
                 {
 
                     var ObjFromDB = await context.FindAsync<T>(EntityID);
-                    if (ObjFromDB!=null)
+                    if (ObjFromDB !=null)
                     {
                         context.Entry(ObjFromDB).CurrentValues.SetValues(NewEntity);
                         await context.SaveChangesAsync();

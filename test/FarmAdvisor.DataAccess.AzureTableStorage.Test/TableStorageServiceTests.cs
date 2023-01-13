@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Busineess.Models;
+using FarmAdvisor.Models.Models;
 using FarmAdvisor.DataAccess.AzureTableStorage.services;
 using Xunit;
 
@@ -17,7 +17,7 @@ namespace FarmAdvisor.Function.Test.DataAccess.AzureTableStorage
             string tableName = "Weather";
             var storage = new TableStorageService(tableName);
             try {
-                await storage.DeleteEntityAsync<Weather>("ad", "ad");
+                await storage.DeleteEntityAsync<WeatherModel>("ad", "ad");
                 Assert.True(false);
             }
             catch {
@@ -30,7 +30,7 @@ namespace FarmAdvisor.Function.Test.DataAccess.AzureTableStorage
         public async Task UpsertAndGetEntityTest() {
             string tableName = "Weather";
             var storage = new TableStorageService(tableName);
-            var weather = new Weather();
+            var weather = new WeatherModel();
             weather.AirPressureAtSeaLevel = 20;
             weather.CloudAreaFraction = 20;
             weather.RelativeHumidity = 10;
@@ -39,9 +39,9 @@ namespace FarmAdvisor.Function.Test.DataAccess.AzureTableStorage
             weather.PartitionKey = "10";
             weather.RowKey = "01";
 
-            var result = await storage.UpsertEntityAsync<Weather>(weather);
+            var result = await storage.UpsertEntityAsync<WeatherModel>(weather);
 
-            var added = await storage.GetEntityAsync<Weather>(weather.PartitionKey, weather.RowKey);
+            var added = await storage.GetEntityAsync<WeatherModel>(weather.PartitionKey, weather.RowKey);
 
             Assert.Multiple(
                 () => Assert.Equal(result.AirPressureAtSeaLevel, added.AirPressureAtSeaLevel),
@@ -58,7 +58,7 @@ namespace FarmAdvisor.Function.Test.DataAccess.AzureTableStorage
         public async Task DeleteEntityTest() {
             string tableName = "Weather";
             var storage = new TableStorageService(tableName);
-            var weather = new Weather();
+            var weather = new WeatherModel();
             weather.AirPressureAtSeaLevel = 20;
             weather.CloudAreaFraction = 20;
             weather.RelativeHumidity = 10;
@@ -67,10 +67,10 @@ namespace FarmAdvisor.Function.Test.DataAccess.AzureTableStorage
             weather.PartitionKey = "10";
             weather.RowKey = "01";
 
-            await storage.UpsertEntityAsync<Weather>(weather);
-            await storage.DeleteEntityAsync<Weather>(weather.PartitionKey, weather.RowKey);
+            await storage.UpsertEntityAsync<WeatherModel>(weather);
+            await storage.DeleteEntityAsync<WeatherModel>(weather.PartitionKey, weather.RowKey);
 
-            await Assert.ThrowsAsync<Azure.RequestFailedException>(async ()=> await storage.GetEntityAsync<Weather>(weather.PartitionKey, weather.RowKey));
+            await Assert.ThrowsAsync<Azure.RequestFailedException>(async ()=> await storage.GetEntityAsync<WeatherModel>(weather.PartitionKey, weather.RowKey));
 
             // Assert.Null(removed);
         }
