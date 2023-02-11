@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore.Design;
 
 using System.Diagnostics;
 using FarmAdvisor.Models.Models;
+using static FarmAdvisor.Models.Models.NotificationModel;
+using static FarmAdvisor.Models.Models.SensorModel;
 
 namespace FarmAdvisor.DataAccess.MSSQL.DataContext
 {
@@ -61,10 +63,10 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<UserModel>().Property(us => us.Phone).HasColumnName("phone_number");
             modelBuilder.Entity<UserModel>().Property(us => us.AuthId).HasMaxLength(250).HasColumnName("auth_id");
             modelBuilder.Entity<UserModel>().HasMany<FarmModel>(us => us.Farms)
-                .WithMany(us => us.Users);
-           modelBuilder.Entity<UserModel>()
-                .HasMany(us => us.Sensors)
-                .WithMany(us => us.Users);
+                .WithOne(us => us.User)
+                .HasForeignKey(us => us.FarmId)
+                .OnDelete(DeleteBehavior.Cascade);;
+           
 
 
             #endregion
@@ -132,7 +134,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<SensorModel>().Property(us => us.CuttingDateTimeCalculated).HasColumnName("estimated_date");
             modelBuilder.Entity<SensorModel>().Property(us => us.LastForecastDate).HasColumnName("last_forecast_date");
             modelBuilder.Entity<SensorModel>().Property(us => us.State).HasConversion(
-            v => v!.ToString(), v => (Enum)Enum.Parse(typeof(Enum), v)).HasMaxLength(250).HasColumnName("state");
+            v => v!.ToString(), v => (StateEnum)StateEnum.Parse(typeof(StateEnum), v)).HasMaxLength(250).HasColumnName("state");
 
  
 
@@ -146,13 +148,13 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<NotificationModel>().Property(us => us.Title).HasMaxLength(100).HasColumnName("title");
             modelBuilder.Entity<NotificationModel>().Property(us => us.Message).HasMaxLength(200).HasColumnName("message");
             modelBuilder.Entity<NotificationModel>().Property(us => us.SentBy).HasConversion(
-            v => v!.ToString(),v => (Enum)Enum.Parse(typeof(Enum), v)).HasColumnName("sent_by");
+            v => v!.ToString(),v => (SenderEnum)SenderEnum.Parse(typeof(SenderEnum), v)).HasColumnName("sent_by");
             modelBuilder.Entity<NotificationModel>().Property(us => us.Status).HasConversion(
-            v => v!.ToString(),v => (Enum)Enum.Parse(typeof(Enum), v)).HasColumnName("status");
+            v => v!.ToString(),v => (StatusEnum)Enum.Parse(typeof(StatusEnum), v)).HasColumnName("status");
             modelBuilder.Entity<NotificationModel>().Property(us => us.Title).IsRequired(true).HasMaxLength(100).HasColumnName("title");
             modelBuilder.Entity<NotificationModel>().Property(us => us.Message).IsRequired(true).HasMaxLength(200).HasColumnName("message");
             modelBuilder.Entity<NotificationModel>().Property(us => us.SentBy).IsRequired(true).HasConversion(
-            v => v.ToString(),v => (Enum)Enum.Parse(typeof(Enum), v)).HasColumnName("sent_by");
+            v => v.ToString(),v => (SenderEnum)SenderEnum.Parse(typeof(SenderEnum), v)).HasColumnName("sent_by");
             modelBuilder.Entity<NotificationModel>().Property(us => us.Status).IsRequired(true).HasConversion(
             v => v.ToString(),v => (StatusEnum)StatusEnum.Parse(typeof(StatusEnum), v)).HasColumnName("status");
 
