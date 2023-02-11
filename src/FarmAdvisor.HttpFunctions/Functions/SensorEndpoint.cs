@@ -25,9 +25,9 @@ namespace FarmAdvisor_HttpFunctions.Functions
         {
             _crud = crud;
         }
-        [FunctionName("SensorEndpoint")]
+        [FunctionName("AddSensor")]
         public async Task<ActionResult<SensorModel>> AddSensor(
-            [HttpTrigger(AuthorizationLevel.Function,"post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function,"post", Route = "addSensor")] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
