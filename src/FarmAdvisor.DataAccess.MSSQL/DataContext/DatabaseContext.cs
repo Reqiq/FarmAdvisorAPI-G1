@@ -154,7 +154,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<NotificationModel>().Property(us => us.SentBy).IsRequired(true).HasConversion(
             v => v.ToString(),v => (Enum)Enum.Parse(typeof(Enum), v)).HasColumnName("sent_by");
             modelBuilder.Entity<NotificationModel>().Property(us => us.Status).IsRequired(true).HasConversion(
-            v => v.ToString(),v => (Enum)Enum.Parse(typeof(Enum), v)).HasColumnName("status");
+            v => v.ToString(),v => (StatusEnum)StatusEnum.Parse(typeof(StatusEnum), v)).HasColumnName("status");
 
 
             #endregion

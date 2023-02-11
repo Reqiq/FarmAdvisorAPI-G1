@@ -54,7 +54,7 @@ namespace FarmAdvisor_HttpFunctions.Functions
                 DateTime lastForecastData = data?.lastForecastData;
                 double lat = data?.lat;
                 double longt = data?.longt;
-                Enum state = data?.state;
+                StateEnum state = (StateEnum)StateEnum.Parse(typeof(StateEnum), data?.state);
 
                 var sensor = new SensorModel { SerialNumber = serialNumber, LastCommunication = lastCommunication, BatteryStatus = batteryStatus, OptimalGDD = optimalGDD, CuttingDateTimeCalculated = cuttingDateTimeCalculated, LastForecastDate = lastCommunication, Lat = lat, Long = longt, State = state };
 
