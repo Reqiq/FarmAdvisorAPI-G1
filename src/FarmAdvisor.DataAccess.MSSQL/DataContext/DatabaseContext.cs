@@ -61,10 +61,10 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<UserModel>().Property(us => us.Phone).HasColumnName("phone_number");
             modelBuilder.Entity<UserModel>().Property(us => us.AuthId).HasMaxLength(250).HasColumnName("auth_id");
             modelBuilder.Entity<UserModel>().HasMany<FarmModel>(us => us.Farms)
-                .WithMany(us => us.Users);
-           modelBuilder.Entity<UserModel>()
-                .HasMany(us => us.Sensors)
-                .WithMany(us => us.Users);
+                .WithOne(us => us.User)
+                .HasForeignKey(us => us.FarmId)
+                .OnDelete(DeleteBehavior.Cascade);;
+           
 
 
             #endregion
