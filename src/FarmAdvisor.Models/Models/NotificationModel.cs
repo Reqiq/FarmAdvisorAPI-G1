@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-using System.Text;
-
-namespace FarmAdvisor.DataAccess.MSSQL.Entities
+﻿namespace FarmAdvisor.Models.Models
 {
 
-    public class Notification
+    public class NotificationModel
     {
 
 
@@ -20,7 +15,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Entities
 
         public Enum? Status { get; set; }
 
-        public virtual Farm? Farm { get; set; }
+        public FarmModel? Farm { get; set; }
 
     }
 }
