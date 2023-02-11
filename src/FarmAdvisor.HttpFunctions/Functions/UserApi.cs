@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using FarmAdvisor.Models.Models;
-using FarmAdvisor.DataAccess.MSSQL.Functions.Crud;
 using FarmAdvisor.DataAccess.MSSQL.Functions.Interfaces;
 using FarmAdvisor.DataAccess.MSSQL.DataContext;
 using System.Linq;
@@ -23,7 +22,7 @@ namespace FarmAdvisor_HttpFunctions.Functions
         {
             _crud = crud;
         }
-        [FunctionName("UserApi")]
+        [FunctionName("AddUserApi")]
         public async Task<ActionResult<UserModel>> AddUser(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
@@ -65,7 +64,7 @@ namespace FarmAdvisor_HttpFunctions.Functions
         }
 
 
-        [FunctionName("UserApiNew")]
+        [FunctionName("GetUserApiNew")]
         public async Task<IActionResult> GetUserNew(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "UserApi/{id}")] HttpRequest req, Guid id,
             ILogger log)
@@ -113,6 +112,28 @@ namespace FarmAdvisor_HttpFunctions.Functions
                 return new NotFoundObjectResult(ex);
             }
             return new OkObjectResult(responseMessage);
+        }
+
+        [FunctionName("UserApiDelete")]
+        public async Task<ActionResult<UserModel>> DeleteUser(
+           [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "UserApi/{id}")] HttpRequest req, Guid id,
+           ILogger log)
+        {
+            log.LogInformation("C# HTTP trigger function processed a request.");
+
+            bool status;
+            try
+            {
+                status = await _crud.Delete<UserModel>(id);
+            }
+            catch (Exception ex)
+            {
+                return new NotFoundObjectResult(ex);
+            }
+            if (!status){
+                return new NotFoundObjectResult("Not Succeeded");
+            }
+            return new OkObjectResult("Deleted succesfully");
         }
 
     }
