@@ -15,7 +15,13 @@
         public double Lat { get; set; }
         public double Long { get; set; }
 
-        public Enum? State { get; set; }
+        public enum StateEnum
+        {
+            Working,
+            Warning,
+            Failed
+        }
+        public StateEnum? State { get; set; }
 
 
         public FieldModel? Field { get; set; }

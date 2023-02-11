@@ -11,7 +11,14 @@
 
         public string? Message { get; set; }
 
-        public Enum? SentBy { get; set; }
+        public enum SenderEnum
+        {
+            Sensor,
+            User,
+            Field,
+            Farm
+        }
+        public SenderEnum SentBy { get; set; }
 
         public Enum? Status { get; set; }
 
