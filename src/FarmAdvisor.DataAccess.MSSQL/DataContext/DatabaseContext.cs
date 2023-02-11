@@ -30,7 +30,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             public DbContextOptionsBuilder<DatabaseContext> OptionsBuilder { get; set; }
             public AppConfiguration Settings { get; set; }
             public DbContextOptions<DatabaseContext> DatabaseOptions { get; set; }
-            
+
         }
 
 
@@ -45,7 +45,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
         public DbSet<NotificationModel> Notifications { get; set; }
 
         public DbSet<FieldModel> Fields { get; set; }
-    
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -61,10 +61,10 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<UserModel>().Property(us => us.Phone).HasColumnName("phone_number");
             modelBuilder.Entity<UserModel>().Property(us => us.AuthId).HasMaxLength(250).HasColumnName("auth_id");
             modelBuilder.Entity<UserModel>().HasMany<FarmModel>(us => us.Farms)
-                .WithMany(us => us.Users);
-           modelBuilder.Entity<UserModel>()
-                .HasMany(us => us.Sensors)
-                .WithMany(us => us.Users);
+                .WithOne(us => us.User)
+                .HasForeignKey(us => us.FarmId)
+                .OnDelete(DeleteBehavior.NoAction);
+
 
 
             #endregion
@@ -86,9 +86,9 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<FarmModel>().Property(us => us.Country).IsRequired(true).HasMaxLength(250).HasColumnName("country");
 
             modelBuilder.Entity<FarmModel>()
-                .HasMany(us=>us.Notifications)
-                .WithOne(us=>us.Farm)
-                .HasForeignKey(us=>us.NotificationId)
+                .HasMany(us => us.Notifications)
+                .WithOne(us => us.Farm)
+                .HasForeignKey(us => us.NotificationId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<FarmModel>().HasMany<FieldModel>(us => us.Fields)
@@ -109,7 +109,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<FieldModel>().Property(us => us.Name).IsRequired(true).HasMaxLength(100).HasColumnName("Field_name");
             modelBuilder.Entity<FieldModel>().Property(us => us.Polygon).IsRequired(true).HasMaxLength(100).HasColumnName("polygon");
             modelBuilder.Entity<FieldModel>().Property(us => us.Alt).IsRequired(true).HasColumnName("altitude");
-            
+
             modelBuilder.Entity<FieldModel>().HasMany<SensorModel>(us => us.Sensors)
                 .WithOne(us => us.Field)
                 .HasForeignKey(us => us.SensorId)
@@ -134,11 +134,11 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<SensorModel>().Property(us => us.State).HasConversion(
             v => v!.ToString(), v => (Enum)Enum.Parse(typeof(Enum), v)).HasMaxLength(250).HasColumnName("state");
 
- 
+
 
 
             #endregion
-         
+
             #region Notification
             modelBuilder.Entity<NotificationModel>().ToTable("notification");
             modelBuilder.Entity<NotificationModel>().HasKey(us => us.NotificationId);
@@ -146,20 +146,20 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<NotificationModel>().Property(us => us.Title).HasMaxLength(100).HasColumnName("title");
             modelBuilder.Entity<NotificationModel>().Property(us => us.Message).HasMaxLength(200).HasColumnName("message");
             modelBuilder.Entity<NotificationModel>().Property(us => us.SentBy).HasConversion(
-            v => v!.ToString(),v => (Enum)Enum.Parse(typeof(Enum), v)).HasColumnName("sent_by");
+            v => v!.ToString(), v => (Enum)Enum.Parse(typeof(Enum), v)).HasColumnName("sent_by");
             modelBuilder.Entity<NotificationModel>().Property(us => us.Status).HasConversion(
-            v => v!.ToString(),v => (Enum)Enum.Parse(typeof(Enum), v)).HasColumnName("status");
+            v => v!.ToString(), v => (Enum)Enum.Parse(typeof(Enum), v)).HasColumnName("status");
             modelBuilder.Entity<NotificationModel>().Property(us => us.Title).IsRequired(true).HasMaxLength(100).HasColumnName("title");
             modelBuilder.Entity<NotificationModel>().Property(us => us.Message).IsRequired(true).HasMaxLength(200).HasColumnName("message");
             modelBuilder.Entity<NotificationModel>().Property(us => us.SentBy).IsRequired(true).HasConversion(
-            v => v.ToString(),v => (Enum)Enum.Parse(typeof(Enum), v)).HasColumnName("sent_by");
+            v => v.ToString(), v => (Enum)Enum.Parse(typeof(Enum), v)).HasColumnName("sent_by");
             modelBuilder.Entity<NotificationModel>().Property(us => us.Status).IsRequired(true).HasConversion(
-            v => v.ToString(),v => (Enum)Enum.Parse(typeof(Enum), v)).HasColumnName("status");
+            v => v.ToString(), v => (Enum)Enum.Parse(typeof(Enum), v)).HasColumnName("status");
 
 
             #endregion
 
-           
+
 
 
         }

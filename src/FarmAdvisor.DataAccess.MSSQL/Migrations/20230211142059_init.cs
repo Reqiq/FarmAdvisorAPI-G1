@@ -5,25 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FarmAdvisor.DataAccess.MSSQL.Migrations
 {
-    public partial class initializedatabase : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "farm",
-                columns: table => new
-                {
-                    farm_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    farm_name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    postcode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    city = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    country = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_farm", x => x.farm_id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "user",
                 columns: table => new
@@ -37,6 +22,27 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_user", x => x.user_id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "farm",
+                columns: table => new
+                {
+                    farm_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    farm_name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    postcode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    city = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    country = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_farm", x => x.farm_id);
+                    table.ForeignKey(
+                        name: "FK_farm_user_farm_id",
+                        column: x => x.farm_id,
+                        principalTable: "user",
+                        principalColumn: "user_id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,30 +83,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                         column: x => x.Notification_id,
                         principalTable: "farm",
                         principalColumn: "farm_id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FarmModelUserModel",
-                columns: table => new
-                {
-                    FarmsFarmId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UsersUserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FarmModelUserModel", x => new { x.FarmsFarmId, x.UsersUserID });
-                    table.ForeignKey(
-                        name: "FK_FarmModelUserModel_farm_FarmsFarmId",
-                        column: x => x.FarmsFarmId,
-                        principalTable: "farm",
-                        principalColumn: "farm_id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_FarmModelUserModel_user_UsersUserID",
-                        column: x => x.UsersUserID,
-                        principalTable: "user",
-                        principalColumn: "user_id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -155,11 +137,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_FarmModelUserModel_UsersUserID",
-                table: "FarmModelUserModel",
-                column: "UsersUserID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_SensorModelUserModel_UsersUserID",
                 table: "SensorModelUserModel",
                 column: "UsersUserID");
@@ -167,9 +144,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "FarmModelUserModel");
-
             migrationBuilder.DropTable(
                 name: "notification");
 
@@ -180,13 +154,13 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                 name: "sensor");
 
             migrationBuilder.DropTable(
-                name: "user");
-
-            migrationBuilder.DropTable(
                 name: "field");
 
             migrationBuilder.DropTable(
                 name: "farm");
+
+            migrationBuilder.DropTable(
+                name: "user");
         }
     }
 }

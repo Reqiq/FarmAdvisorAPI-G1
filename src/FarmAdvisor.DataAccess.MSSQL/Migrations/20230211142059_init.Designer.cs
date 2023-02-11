@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FarmAdvisor.DataAccess.MSSQL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230119183923_initializedatabase")]
-    partial class initializedatabase
+    [Migration("20230211142059_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,7 +27,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
             modelBuilder.Entity("FarmAdvisor.Models.Models.FarmModel", b =>
                 {
                     b.Property<Guid>("FarmId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("farm_id");
 
@@ -204,21 +203,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                     b.ToTable("user", (string)null);
                 });
 
-            modelBuilder.Entity("FarmModelUserModel", b =>
-                {
-                    b.Property<Guid>("FarmsFarmId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UsersUserID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("FarmsFarmId", "UsersUserID");
-
-                    b.HasIndex("UsersUserID");
-
-                    b.ToTable("FarmModelUserModel");
-                });
-
             modelBuilder.Entity("SensorModelUserModel", b =>
                 {
                     b.Property<Guid>("SensorsSensorId")
@@ -232,6 +216,17 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                     b.HasIndex("UsersUserID");
 
                     b.ToTable("SensorModelUserModel");
+                });
+
+            modelBuilder.Entity("FarmAdvisor.Models.Models.FarmModel", b =>
+                {
+                    b.HasOne("FarmAdvisor.Models.Models.UserModel", "User")
+                        .WithMany("Farms")
+                        .HasForeignKey("FarmId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FarmAdvisor.Models.Models.FieldModel", b =>
@@ -267,21 +262,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                     b.Navigation("Field");
                 });
 
-            modelBuilder.Entity("FarmModelUserModel", b =>
-                {
-                    b.HasOne("FarmAdvisor.Models.Models.FarmModel", null)
-                        .WithMany()
-                        .HasForeignKey("FarmsFarmId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FarmAdvisor.Models.Models.UserModel", null)
-                        .WithMany()
-                        .HasForeignKey("UsersUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("SensorModelUserModel", b =>
                 {
                     b.HasOne("FarmAdvisor.Models.Models.SensorModel", null)
@@ -307,6 +287,11 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
             modelBuilder.Entity("FarmAdvisor.Models.Models.FieldModel", b =>
                 {
                     b.Navigation("Sensors");
+                });
+
+            modelBuilder.Entity("FarmAdvisor.Models.Models.UserModel", b =>
+                {
+                    b.Navigation("Farms");
                 });
 #pragma warning restore 612, 618
         }
