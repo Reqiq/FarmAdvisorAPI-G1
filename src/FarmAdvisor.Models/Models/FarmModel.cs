@@ -11,7 +11,7 @@ namespace FarmAdvisor.Models.Models
         public ICollection<NotificationModel>? Notifications{ get; set; }
         public ICollection<FieldModel>? Fields { get; set; }
 
-        public ICollection<UserModel>? Users { get; set; }
+        public UserModel? User { get; set; }
 
     }
 }
