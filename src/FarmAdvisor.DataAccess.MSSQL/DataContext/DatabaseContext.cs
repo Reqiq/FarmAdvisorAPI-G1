@@ -116,10 +116,10 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<FieldModel>().Property(us => us.Alt).IsRequired(true).HasColumnName("altitude");
 
 
-            modelBuilder.Entity<FieldModel>().HasMany<SensorModel>(us => us.Sensors)
+            /*modelBuilder.Entity<FieldModel>().HasMany<SensorModel>(us => us.Sensors)
                 .WithOne(us => us.Field)
                 .HasForeignKey(us => us.SensorId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict);*/
             modelBuilder.Entity<FieldModel>()
                 .HasOne(us => us.Farm)
                 .WithMany(b => b.Fields)
@@ -144,7 +144,11 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<SensorModel>().Property(us => us.LastForecastDate).HasColumnName("last_forecast_date");
             modelBuilder.Entity<SensorModel>().Property(us => us.State).HasConversion(
             v => v!.ToString(), v => (StateEnum)StateEnum.Parse(typeof(StateEnum), v)).HasMaxLength(250).HasColumnName("state");
-
+            modelBuilder.Entity<SensorModel>()
+                .HasOne(us => us.Field)
+                .WithMany(b => b.Sensors)
+                .HasForeignKey(p => p.FieldId)
+                .OnDelete(DeleteBehavior.Cascade);
 
 
 
