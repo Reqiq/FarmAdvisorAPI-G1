@@ -6,6 +6,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.OpenApi" Version="1.4.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.0.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
@@ -16,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FarmAdvisor.Commons\FarmAdvisor.Commons.csproj" />
+    <ProjectReference Include="..\FarmAdvisor.AppFunctions\FarmAdvisor_AppFunctions.csproj" />
     <ProjectReference Include="..\FarmAdvisor.DataAccess.MSSQL\FarmAdvisor.DataAccess.MSSQL.csproj" />
     <ProjectReference Include="..\FarmAdvisor.Models\FarmAdvisor.Models.csproj" />
   </ItemGroup>

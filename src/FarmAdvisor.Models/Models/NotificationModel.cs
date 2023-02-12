@@ -1,4 +1,6 @@
-﻿namespace FarmAdvisor.Models.Models
+﻿using static FarmAdvisor.Models.Models.SensorModel;
+
+namespace FarmAdvisor.Models.Models
 {
 
     public class NotificationModel
@@ -11,9 +13,22 @@
 
         public string? Message { get; set; }
 
-        public Enum? SentBy { get; set; }
+        public enum SenderEnum
+        {
+            Sensor,
+            User,
+            Field,
+            Farm
+        }
+        public SenderEnum SentBy { get; set; }
 
-        public Enum? Status { get; set; }
+        public enum StatusEnum
+        {
+            Unknown,
+            Done,
+
+        }
+        public StatusEnum Status { get; set; }
 
         public FarmModel? Farm { get; set; }
 

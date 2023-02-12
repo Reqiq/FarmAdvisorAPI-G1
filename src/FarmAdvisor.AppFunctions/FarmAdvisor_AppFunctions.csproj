@@ -18,7 +18,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\FarmAdvisor.Business\FarmAdvisor.Business.csproj" />
-		<ProjectReference Include="..\FarmAdvisor.DataAccess.MSSQL\FarmAdvisor.DataAccess.MSSQL.csproj" />
 		<ProjectReference Include="..\FarmAdvisor.Models\FarmAdvisor.Models.csproj" />
 	</ItemGroup>
 	<ItemGroup>

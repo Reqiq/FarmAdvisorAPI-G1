@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="Functions\Specific\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
