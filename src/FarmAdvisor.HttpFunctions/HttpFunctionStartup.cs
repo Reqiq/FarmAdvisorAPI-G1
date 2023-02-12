@@ -1,4 +1,7 @@
 using FarmAdvisor.DataAccess.AzureTableStorage.services;
+using FarmAdvisor.DataAccess.MSSQL.Functions.Interfaces;
+using FarmAdvisor.DataAccess.MSSQL.Functions.Crud;
+
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

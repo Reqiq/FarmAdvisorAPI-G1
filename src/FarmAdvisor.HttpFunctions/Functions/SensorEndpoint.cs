@@ -48,17 +48,25 @@ namespace FarmAdvisor_HttpFunctions.Functions
                     return new ConflictObjectResult("Sensor  exists");
                 }
 
+                DateTime lastCommunication, cuttingDateTimeCalculated, lastForecastData;
 
+                try
+                {
+                    lastCommunication = DateTime.Parse( data?.lastCommunication.ToString());
+                    cuttingDateTimeCalculated = DateTime.Parse( data?.cuttingDateTimeCalculated.ToString());
+                    lastForecastData = DateTime.Parse(data?.lastForecastData.ToString());
+                }
+                catch (FormatException)
+                {
+                    return new BadRequestObjectResult(data);
+                }
 
-                DateTime lastCommunication = data?.lastCommunication;
                 int batteryStatus = data?.batteryStatus;
                 int optimalGDD = data?.optimalGDD;
-                DateTime cuttingDateTimeCalculated = data?.cuttingDateTimeCalculated;
-                DateTime lastForecastData = data?.lastForecastData;
+                
                 double lat = data?.lat;
                 double longt = data?.longt;
                 StateEnum state = (StateEnum)StateEnum.Parse(typeof(StateEnum), data?.state.ToString());
-
                 var sensor = new SensorModel { SensorId = Guid.NewGuid(), SerialNumber = serialNumber, LastCommunication = lastCommunication, BatteryStatus = batteryStatus, OptimalGDD = optimalGDD, CuttingDateTimeCalculated = cuttingDateTimeCalculated, LastForecastDate = lastCommunication, Lat = lat, Long = longt, State = state };
 
                 //SensorModel responseMessage;
