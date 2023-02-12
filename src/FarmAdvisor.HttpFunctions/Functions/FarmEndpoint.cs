@@ -51,7 +51,7 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
             {
                 return new NotFoundObjectResult("No user Id provided");
             }
-            var farm = new FarmModel { Name = Name, Postcode = PostCode, City = City, Country = Country, User =user };
+            var farm = new FarmModel { Name = Name, Postcode = PostCode, City = City, Country = Country, UserId = user.UserID };
 
             FarmModel responseMessage;
             try

@@ -36,7 +36,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
         }
 
 
-        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
+        public DatabaseContext(DbContextOptions options) : base(options) { }
 
         public DbSet<UserModel> Users { get; set; }
 
@@ -62,11 +62,11 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<UserModel>().Property(us => us.Email).HasMaxLength(100).HasColumnName("email");
             modelBuilder.Entity<UserModel>().Property(us => us.Phone).HasColumnName("phone_number");
             modelBuilder.Entity<UserModel>().Property(us => us.AuthId).HasMaxLength(250).HasColumnName("auth_id");
-            modelBuilder.Entity<UserModel>().HasMany<FarmModel>(us => us.Farms)
+            /*modelBuilder.Entity<UserModel>().HasMany<FarmModel>(us => us.Farms)
                 .WithOne(us => us.User)
                 .HasForeignKey(us => us.FarmId)
-                .OnDelete(DeleteBehavior.Cascade); ;
-
+                .OnDelete(DeleteBehavior.Cascade);
+*/
 
 
             #endregion
@@ -98,6 +98,12 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
                 .HasForeignKey(us => us.FieldId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<FarmModel>()
+                .HasOne(us => us.User)
+                .WithMany(b => b.Farms)
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+                
             #endregion
 
 
@@ -165,5 +171,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
 
 
         }
+
+
     }
 }

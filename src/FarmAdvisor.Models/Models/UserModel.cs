@@ -10,7 +10,7 @@
         public string AuthId{ get; set; }
 
        public ICollection<FarmModel> Farms { get; set; }
-       public ICollection<SensorModel> Sensors { get; set; }
+      // public ICollection<SensorModel> Sensors { get; set; }
 
 
     }

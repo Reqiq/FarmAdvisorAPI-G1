@@ -22,6 +22,7 @@ namespace FarmAdvisor_HttpFunctions.Functions
         {
             _crud = crud;
         }
+
         [FunctionName("AddUserApi")]
         public async Task<ActionResult<UserModel>> AddUser(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
@@ -63,7 +64,6 @@ namespace FarmAdvisor_HttpFunctions.Functions
             return new OkObjectResult(responseMessage);
         }
 
-
         [FunctionName("GetUserApiNew")]
         public async Task<IActionResult> GetUserNew(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "UserApi/{id}")] HttpRequest req, Guid id,
@@ -71,17 +71,23 @@ namespace FarmAdvisor_HttpFunctions.Functions
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            UserModel responseMessage;
 
             try
             {
-                responseMessage = await _crud.Find<UserModel>(id);
+                using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
+                {
+                var responseMessage = context.Users
+                        .Where(u => u.UserID == id)
+                        .Include("Farms")
+                        .FirstOrDefault();
+                return new OkObjectResult(responseMessage);
+
+                }
             }
             catch (Exception ex)
             {
                 return new NotFoundObjectResult(ex);
             }
-            return new OkObjectResult(responseMessage);
         }
         [FunctionName("UserApiEdit")]
         public async Task<ActionResult<UserModel>> EditUser(
