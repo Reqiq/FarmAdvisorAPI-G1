@@ -61,15 +61,13 @@ namespace FarmAdvisor_HttpFunctions.Functions
                     return new BadRequestObjectResult(ex);
                 }
 
-                DateTime? lastCommunication = data?.lastCommunication;
+                
                 int? batteryStatus = data?.batteryStatus;
                 int? optimalGDD = data?.optimalGDD;
-                DateTime? cuttingDateTimeCalculated = data?.cuttingDateTimeCalculated;
-                DateTime? lastForecastData = data?.lastForecastData;
                 double lat = data?.lat;
                 double longt = data?.longt;
                 StateEnum state = StateEnum.Working;
-                string? variable = data?.fieldId;
+                string variable = data?.fieldId;
                 Guid FieldId = new Guid(variable);
                 var sensor = new SensorModel { SensorId = Guid.NewGuid(), SerialNumber = serialNumber, LastCommunication = lastCommunication, BatteryStatus = batteryStatus, OptimalGDD = optimalGDD, CuttingDateTimeCalculated = cuttingDateTimeCalculated, LastForecastDate = lastCommunication, Lat = lat, Long = longt, State = state , FieldId = FieldId};
 
@@ -106,6 +104,32 @@ namespace FarmAdvisor_HttpFunctions.Functions
                 return new NotFoundObjectResult(ex);
             }
             return new OkObjectResult(responseMessage);
+        }
+
+
+        [FunctionName("GetSensorsInField")]
+        public async Task<IActionResult> GetSensorsInField(
+           [HttpTrigger(AuthorizationLevel.Function, "get", Route = "allSensors/{id}")] HttpRequest req, Guid id,
+           ILogger log)
+        {
+            log.LogInformation("C# HTTP trigger function processed a request.");
+
+
+            try
+            {
+                using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
+                {
+                    var responseMessage = context.Sensors
+                            .Where(u => u.FieldId == id).ToList();
+
+                    return new OkObjectResult(responseMessage);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return new NotFoundObjectResult(ex);
+            }
         }
 
         [FunctionName("EditSensor")]

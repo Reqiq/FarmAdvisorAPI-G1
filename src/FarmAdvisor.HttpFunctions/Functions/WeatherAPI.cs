@@ -36,15 +36,19 @@ namespace FarmAdvisor_HttpFunctions.Functions
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
+            
 
             string fieldID = data?.FieldID;
             Guid id = new Guid(fieldID);
-                var field = await _crud.Find<FieldModel>(id); 
-                if (field != null)
+            var field = await _crud.Find<FieldModel>(id);
+            log.LogInformation($"{field}");
+           
+            if (field != null)
                 {
                     using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
                     {
                         var allsensors = context.Sensors.Where(s => s.FieldId ==id).ToList();
+                    log.LogInformation(allsensors.ToString());
 
                         var result = new List<WeatherForecast>();
 
@@ -61,6 +65,7 @@ namespace FarmAdvisor_HttpFunctions.Functions
                 }
                 else
                 {
+                log.LogInformation("notfound");
                     return new NotFoundObjectResult(data);
                 }
             }
