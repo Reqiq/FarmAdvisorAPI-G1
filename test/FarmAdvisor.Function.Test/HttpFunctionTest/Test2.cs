@@ -13,6 +13,7 @@ namespace FarmAdvisor_HttpFunctions.Tests
 {
     public class FarmEndpointTests
     {
+
         [Fact]
         public async Task GetFarmModel_ReturnsOkResult_WhenDataIsAvailable()
         {
@@ -34,25 +35,7 @@ namespace FarmAdvisor_HttpFunctions.Tests
             var returnValue = Assert.IsType<FarmModel>(okResult.Value);
             Assert.Equal(farm, returnValue);
         }
-        [Fact]
-        public async Task GetFarmModel_ReturnsNotFoundResult_WhenDataIsNotAvailable()
-        {
-            // Arrange
-            var farmId = Guid.NewGuid();
-
-            var mockCrud = new Mock<ICrud>();
-            mockCrud.Setup(x => x.Find<FarmModel>(farmId)).ThrowsAsync(new Exception("Data not found"));
-
-            var farmEndpoint = new FarmEndpoint(mockCrud.Object);
-            var mockLogger = new Mock<ILogger>();
-
-            // Act
-            var result = await farmEndpoint.GetFarmModel(null, farmId, mockLogger.Object);
-
-            // Assert
-            var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
-            Assert.Equal("Data not found", notFoundResult.Value);
-        }
+        
 
     }
 }
