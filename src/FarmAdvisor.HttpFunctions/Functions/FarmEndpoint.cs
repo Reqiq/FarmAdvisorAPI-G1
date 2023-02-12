@@ -84,6 +84,7 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
                     var responseMessage = context.Farms
                             .Where(u => u.FarmId == id)
                             .Include("Fields")
+                            .Include("Notifications")
                             .FirstOrDefault();
                     return new OkObjectResult(responseMessage);
 

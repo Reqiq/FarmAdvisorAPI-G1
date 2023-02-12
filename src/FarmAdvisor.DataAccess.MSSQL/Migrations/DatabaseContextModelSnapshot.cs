@@ -99,8 +99,12 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
             modelBuilder.Entity("FarmAdvisor.Models.Models.NotificationModel", b =>
                 {
                     b.Property<Guid>("NotificationId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("Notification_id");
+
+                    b.Property<Guid>("FarmId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Message")
                         .IsRequired()
@@ -126,14 +130,15 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
 
                     b.HasKey("NotificationId");
 
+                    b.HasIndex("FarmId");
+
                     b.ToTable("notification", (string)null);
                 });
 
             modelBuilder.Entity("FarmAdvisor.Models.Models.SensorData", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("serialNum")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool?>("batteryStatus")
                         .HasColumnType("bit");
@@ -150,9 +155,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                     b.Property<string>("sampleOffsets")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("serialNum")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("signal")
                         .HasColumnType("int");
 
@@ -165,7 +167,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                     b.Property<string>("type")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("serialNum");
 
                     b.ToTable("SensorDatas");
                 });
@@ -286,7 +288,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                 {
                     b.HasOne("FarmAdvisor.Models.Models.FarmModel", "Farm")
                         .WithMany("Notifications")
-                        .HasForeignKey("NotificationId")
+                        .HasForeignKey("FarmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
