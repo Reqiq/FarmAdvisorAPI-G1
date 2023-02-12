@@ -61,13 +61,17 @@ namespace FarmAdvisor_HttpFunctions.Functions
                     return new BadRequestObjectResult(ex);
                 }
 
-                int batteryStatus = data?.batteryStatus;
-                int optimalGDD = data?.optimalGDD;
-                
+                DateTime? lastCommunication = data?.lastCommunication;
+                int? batteryStatus = data?.batteryStatus;
+                int? optimalGDD = data?.optimalGDD;
+                DateTime? cuttingDateTimeCalculated = data?.cuttingDateTimeCalculated;
+                DateTime? lastForecastData = data?.lastForecastData;
                 double lat = data?.lat;
                 double longt = data?.longt;
-                StateEnum state = (StateEnum)StateEnum.Parse(typeof(StateEnum), data?.state.ToString());
-                var sensor = new SensorModel { SensorId = Guid.NewGuid(), SerialNumber = serialNumber, LastCommunication = lastCommunication, BatteryStatus = batteryStatus, OptimalGDD = optimalGDD, CuttingDateTimeCalculated = cuttingDateTimeCalculated, LastForecastDate = lastCommunication, Lat = lat, Long = longt, State = state };
+                StateEnum state = StateEnum.Working;
+                string? variable = data?.fieldId;
+                Guid FieldId = new Guid(variable);
+                var sensor = new SensorModel { SensorId = Guid.NewGuid(), SerialNumber = serialNumber, LastCommunication = lastCommunication, BatteryStatus = batteryStatus, OptimalGDD = optimalGDD, CuttingDateTimeCalculated = cuttingDateTimeCalculated, LastForecastDate = lastCommunication, Lat = lat, Long = longt, State = state , FieldId = FieldId};
 
                 //SensorModel responseMessage;
 
