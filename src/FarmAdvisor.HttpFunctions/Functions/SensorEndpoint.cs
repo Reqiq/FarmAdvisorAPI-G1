@@ -15,6 +15,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Numerics;
 using System.Collections;
+using static FarmAdvisor.Models.Models.SensorModel;
 
 namespace FarmAdvisor_HttpFunctions.Functions
 {
@@ -25,9 +26,9 @@ namespace FarmAdvisor_HttpFunctions.Functions
         {
             _crud = crud;
         }
-        [FunctionName("SensorEndpoint")]
+        [FunctionName("AddSensor")]
         public async Task<ActionResult<SensorModel>> AddSensor(
-            [HttpTrigger(AuthorizationLevel.Function,"post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
@@ -41,34 +42,38 @@ namespace FarmAdvisor_HttpFunctions.Functions
             using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
             {
                 prevSensor = await context.Sensors.FirstOrDefaultAsync(s => s.SerialNumber == serialNumber);
-            }
-            if (prevSensor != null)
-            {
-                return new ConflictObjectResult("Sensor  exists");
-            }
 
-            DateTime  lastCommunication = data?.lastCommunication;
-            int batteryStatus = data?.batteryStatus;
-            int optimalGDD = data?.optimalGDD;
-            DateTime cuttingDateTimeCalculated = data?.cuttingDateTimeCalculated;
-            DateTime lastForecastData = data?.lastForecastData;
-            double lat = data?.lat;
-            double longt = data?.longt;
-            Enum state = data?.state;
+                if (prevSensor != null)
+                {
+                    return new ConflictObjectResult("Sensor  exists");
+                }
 
-            var sensor = new SensorModel { SerialNumber = serialNumber, LastCommunication = lastCommunication, BatteryStatus = batteryStatus, OptimalGDD = optimalGDD, CuttingDateTimeCalculated = cuttingDateTimeCalculated, LastForecastDate = lastCommunication, Lat = lat, Long = longt, State = state };
 
-            SensorModel responseMessage;
 
-            try
-            {
-                responseMessage = await _crud.Create<SensorModel>(sensor);
+                DateTime lastCommunication = data?.lastCommunication;
+                int batteryStatus = data?.batteryStatus;
+                int optimalGDD = data?.optimalGDD;
+                DateTime cuttingDateTimeCalculated = data?.cuttingDateTimeCalculated;
+                DateTime lastForecastData = data?.lastForecastData;
+                double lat = data?.lat;
+                double longt = data?.longt;
+                StateEnum state = (StateEnum)StateEnum.Parse(typeof(StateEnum), data?.state.ToString());
+
+                var sensor = new SensorModel { SensorId = Guid.NewGuid(), SerialNumber = serialNumber, LastCommunication = lastCommunication, BatteryStatus = batteryStatus, OptimalGDD = optimalGDD, CuttingDateTimeCalculated = cuttingDateTimeCalculated, LastForecastDate = lastCommunication, Lat = lat, Long = longt, State = state };
+
+                //SensorModel responseMessage;
+
+                try
+                {
+                    await context.Sensors.AddAsync(sensor);
+                    await context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    return new NotFoundObjectResult(ex);
+                }
+                return new OkObjectResult(sensor);
             }
-            catch (Exception ex)
-            {
-                return new NotFoundObjectResult(ex);
-            }
-            return new OkObjectResult(responseMessage);
         }
 
         [FunctionName("GetSensor")]
