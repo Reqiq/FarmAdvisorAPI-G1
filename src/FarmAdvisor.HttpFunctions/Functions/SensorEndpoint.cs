@@ -56,9 +56,9 @@ namespace FarmAdvisor_HttpFunctions.Functions
                     cuttingDateTimeCalculated = DateTime.Parse( data?.cuttingDateTimeCalculated.ToString());
                     lastForecastData = DateTime.Parse(data?.lastForecastData.ToString());
                 }
-                catch (FormatException)
+                catch (FormatException ex)
                 {
-                    return new BadRequestObjectResult(data);
+                    return new BadRequestObjectResult(ex);
                 }
 
                 int batteryStatus = data?.batteryStatus;
@@ -102,6 +102,32 @@ namespace FarmAdvisor_HttpFunctions.Functions
                 return new NotFoundObjectResult(ex);
             }
             return new OkObjectResult(responseMessage);
+        }
+
+
+        [FunctionName("GetSensorsInField")]
+        public async Task<IActionResult> GetSensorsInField(
+           [HttpTrigger(AuthorizationLevel.Function, "get", Route = "allSensors/{id}")] HttpRequest req, Guid id,
+           ILogger log)
+        {
+            log.LogInformation("C# HTTP trigger function processed a request.");
+
+
+            try
+            {
+                using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
+                {
+                    var responseMessage = context.Sensors
+                            .Where(u => u.FieldId == id).ToList();
+
+                    return new OkObjectResult(responseMessage);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return new NotFoundObjectResult(ex);
+            }
         }
 
         [FunctionName("EditSensor")]

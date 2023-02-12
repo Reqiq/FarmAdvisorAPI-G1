@@ -5,10 +5,31 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FarmAdvisor.DataAccess.MSSQL.Migrations
 {
-    public partial class dff : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "SensorDatas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    serialNum = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    batteryStatus = table.Column<bool>(type: "bit", nullable: true),
+                    measurementPeriodBase = table.Column<int>(type: "int", nullable: false),
+                    nextTransmissionAt = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    signal = table.Column<int>(type: "int", nullable: false),
+                    timeStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    startPoint = table.Column<int>(type: "int", nullable: false),
+                    sampleOffsets = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    cloudToken = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SensorDatas", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "user",
                 columns: table => new
@@ -138,6 +159,9 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
 
             migrationBuilder.DropTable(
                 name: "sensor");
+
+            migrationBuilder.DropTable(
+                name: "SensorDatas");
 
             migrationBuilder.DropTable(
                 name: "field");

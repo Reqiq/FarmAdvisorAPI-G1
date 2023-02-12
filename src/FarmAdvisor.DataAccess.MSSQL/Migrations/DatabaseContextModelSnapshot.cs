@@ -4,7 +4,6 @@ using FarmAdvisor.DataAccess.MSSQL.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,10 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FarmAdvisor.DataAccess.MSSQL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230212063746_dff")]
-    partial class dff
+    partial class DatabaseContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,6 +127,47 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                     b.HasKey("NotificationId");
 
                     b.ToTable("notification", (string)null);
+                });
+
+            modelBuilder.Entity("FarmAdvisor.Models.Models.SensorData", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("batteryStatus")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("cloudToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("measurementPeriodBase")
+                        .HasColumnType("int");
+
+                    b.Property<string>("nextTransmissionAt")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("sampleOffsets")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("serialNum")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("signal")
+                        .HasColumnType("int");
+
+                    b.Property<int>("startPoint")
+                        .HasColumnType("int");
+
+                    b.Property<string>("timeStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SensorDatas");
                 });
 
             modelBuilder.Entity("FarmAdvisor.Models.Models.SensorModel", b =>
