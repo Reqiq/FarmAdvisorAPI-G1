@@ -10,6 +10,26 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "SensorDatas",
+                columns: table => new
+                {
+                    serialNum = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    batteryStatus = table.Column<bool>(type: "bit", nullable: true),
+                    measurementPeriodBase = table.Column<int>(type: "int", nullable: false),
+                    nextTransmissionAt = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    signal = table.Column<int>(type: "int", nullable: false),
+                    timeStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    startPoint = table.Column<int>(type: "int", nullable: false),
+                    sampleOffsets = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    cloudToken = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SensorDatas", x => x.serialNum);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "user",
                 columns: table => new
                 {
@@ -75,14 +95,15 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                     title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     message = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     sent_by = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FarmId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_notification", x => x.Notification_id);
                     table.ForeignKey(
-                        name: "FK_notification_farm_Notification_id",
-                        column: x => x.Notification_id,
+                        name: "FK_notification_farm_FarmId",
+                        column: x => x.FarmId,
                         principalTable: "farm",
                         principalColumn: "farm_id",
                         onDelete: ReferentialAction.Cascade);
@@ -126,6 +147,11 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                 column: "FarmId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_notification_FarmId",
+                table: "notification",
+                column: "FarmId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_sensor_FieldId",
                 table: "sensor",
                 column: "FieldId");
@@ -138,6 +164,9 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
 
             migrationBuilder.DropTable(
                 name: "sensor");
+
+            migrationBuilder.DropTable(
+                name: "SensorDatas");
 
             migrationBuilder.DropTable(
                 name: "field");
