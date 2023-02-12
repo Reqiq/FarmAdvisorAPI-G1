@@ -56,9 +56,9 @@ namespace FarmAdvisor_HttpFunctions.Functions
                     cuttingDateTimeCalculated = DateTime.Parse( data?.cuttingDateTimeCalculated.ToString());
                     lastForecastData = DateTime.Parse(data?.lastForecastData.ToString());
                 }
-                catch (FormatException)
+                catch (FormatException ex)
                 {
-                    return new BadRequestObjectResult(data);
+                    return new BadRequestObjectResult(ex);
                 }
 
                 int batteryStatus = data?.batteryStatus;
