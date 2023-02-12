@@ -47,7 +47,10 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
             string PostCode = data?.postcode;
             string City = data?.city;
             string Country = data?.country;
-            UserModel? user = await _crud.Find<UserModel>(new Guid(userId));
+
+            Guid UserId = new Guid(userId);
+            UserModel? user = await _crud.Find<UserModel>(UserId);
+
             if (user is null)
             {
                 return new NotFoundObjectResult("No user Id provided");
