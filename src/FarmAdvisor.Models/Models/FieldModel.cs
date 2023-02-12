@@ -1,4 +1,7 @@
-﻿namespace FarmAdvisor.Models.Models
+﻿using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+
+namespace FarmAdvisor.Models.Models
 {
     public class FieldModel
     {
@@ -7,7 +10,10 @@
         public int? Alt { get; set; }
         public string? Polygon { get; set; }
 
+        public Guid FarmId { get; set; }
 
+        [JsonIgnore]
+        [IgnoreDataMember]
         public FarmModel? Farm { get; set; }  
         public ICollection<SensorModel>? Sensors { get; set; }
         

@@ -11,6 +11,7 @@ using FarmAdvisor.DataAccess.MSSQL.DataContext;
 using FarmAdvisor.DataAccess.MSSQL.Functions.Interfaces;
 using FarmAdvisor.Models.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace FarmAdvisor_HttpFunctions.Functionsw
 {
@@ -32,16 +33,16 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
 
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            string? userId = req.Headers["UserId"];
-            
+           
+
+
+            dynamic data = JsonConvert.DeserializeObject(requestBody);
+            string? userId = data?.userId;
+
             if (userId is null)
             {
                 return new NotFoundObjectResult("No user Id provided");
             }
-
-
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-
             string Name = data?.name;
             string PostCode = data?.postcode;
             string City = data?.city;
@@ -72,17 +73,23 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            FarmModel responseMessage;
 
             try
             {
-                responseMessage = await _crud.Find<FarmModel>(id);
+                using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
+                {
+                    var responseMessage = context.Farms
+                            .Where(u => u.FarmId == id)
+                            .Include("Fields")
+                            .FirstOrDefault();
+                    return new OkObjectResult(responseMessage);
+
+                }
             }
             catch (Exception ex)
             {
                 return new NotFoundObjectResult(ex);
             }
-            return new OkObjectResult(responseMessage);
         }
     }
 }
