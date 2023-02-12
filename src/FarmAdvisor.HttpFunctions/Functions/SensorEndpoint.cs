@@ -15,6 +15,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Numerics;
 using System.Collections;
+using static FarmAdvisor.Models.Models.SensorModel;
 
 namespace FarmAdvisor_HttpFunctions.Functions
 {
@@ -47,6 +48,8 @@ namespace FarmAdvisor_HttpFunctions.Functions
                     return new ConflictObjectResult("Sensor  exists");
                 }
 
+
+
                 DateTime lastCommunication = data?.lastCommunication;
                 int batteryStatus = data?.batteryStatus;
                 int optimalGDD = data?.optimalGDD;
@@ -54,9 +57,9 @@ namespace FarmAdvisor_HttpFunctions.Functions
                 DateTime lastForecastData = data?.lastForecastData;
                 double lat = data?.lat;
                 double longt = data?.longt;
-                StateEnum state = (StateEnum)StateEnum.Parse(typeof(StateEnum), data?.state);
+                StateEnum state = (StateEnum)StateEnum.Parse(typeof(StateEnum), data?.state.ToString());
 
-                var sensor = new SensorModel { SerialNumber = serialNumber, LastCommunication = lastCommunication, BatteryStatus = batteryStatus, OptimalGDD = optimalGDD, CuttingDateTimeCalculated = cuttingDateTimeCalculated, LastForecastDate = lastCommunication, Lat = lat, Long = longt, State = state };
+                var sensor = new SensorModel { SensorId = Guid.NewGuid(), SerialNumber = serialNumber, LastCommunication = lastCommunication, BatteryStatus = batteryStatus, OptimalGDD = optimalGDD, CuttingDateTimeCalculated = cuttingDateTimeCalculated, LastForecastDate = lastCommunication, Lat = lat, Long = longt, State = state };
 
                 //SensorModel responseMessage;
 

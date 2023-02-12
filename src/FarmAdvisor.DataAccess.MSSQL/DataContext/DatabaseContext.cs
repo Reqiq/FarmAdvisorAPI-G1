@@ -65,8 +65,8 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<UserModel>().HasMany<FarmModel>(us => us.Farms)
                 .WithOne(us => us.User)
                 .HasForeignKey(us => us.FarmId)
-                .OnDelete(DeleteBehavior.Cascade);;
-           
+                .OnDelete(DeleteBehavior.Restrict);
+
 
 
             #endregion
@@ -91,12 +91,13 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
                 .HasMany(us=>us.Notifications)
                 .WithOne(us=>us.Farm)
                 .HasForeignKey(us=>us.NotificationId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
+
 
             modelBuilder.Entity<FarmModel>().HasMany<FieldModel>(us => us.Fields)
                 .WithOne(us => us.Farm)
                 .HasForeignKey(us => us.FieldId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             #endregion
 
@@ -111,12 +112,11 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<FieldModel>().Property(us => us.Name).IsRequired(true).HasMaxLength(100).HasColumnName("Field_name");
             modelBuilder.Entity<FieldModel>().Property(us => us.Polygon).IsRequired(true).HasMaxLength(100).HasColumnName("polygon");
             modelBuilder.Entity<FieldModel>().Property(us => us.Alt).IsRequired(true).HasColumnName("altitude");
-            
+
             modelBuilder.Entity<FieldModel>().HasMany<SensorModel>(us => us.Sensors)
                 .WithOne(us => us.Field)
                 .HasForeignKey(us => us.SensorId)
-                .OnDelete(DeleteBehavior.Cascade);
-
+                .OnDelete(DeleteBehavior.Restrict);
 
             #endregion
 
