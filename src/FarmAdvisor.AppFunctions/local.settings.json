@@ -3,6 +3,7 @@
     "DefaultConnection": "Data Source=DESKTOP-1B0AQP9;Initial Catalog=farm_api_try1;Integrated Security=True;TrustServerCertificate=True;"
   },
 
+  
   "IsEncrypted": false,
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
