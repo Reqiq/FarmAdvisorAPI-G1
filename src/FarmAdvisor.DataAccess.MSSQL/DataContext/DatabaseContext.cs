@@ -93,10 +93,10 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
                 .HasForeignKey(us => us.NotificationId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<FarmModel>().HasMany<FieldModel>(us => us.Fields)
+            /*modelBuilder.Entity<FarmModel>().HasMany<FieldModel>(us => us.Fields)
                 .WithOne(us => us.Farm)
                 .HasForeignKey(us => us.FieldId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade);*/
 
             modelBuilder.Entity<FarmModel>()
                 .HasOne(us => us.User)
@@ -121,6 +121,12 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<FieldModel>().HasMany<SensorModel>(us => us.Sensors)
                 .WithOne(us => us.Field)
                 .HasForeignKey(us => us.SensorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<FieldModel>()
+                .HasOne(us => us.Farm)
+                .WithMany(b => b.Fields)
+                .HasForeignKey(p => p.FarmId)
                 .OnDelete(DeleteBehavior.Cascade);
 
 
