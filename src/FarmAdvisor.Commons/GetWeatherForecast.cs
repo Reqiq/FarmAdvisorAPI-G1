@@ -1,4 +1,4 @@
-﻿using FarmAdvisor.DataAccess.MSSQL.Entities;
+﻿using FarmAdvisor.Models.Models;
 using System.Net.Http.Json;
 namespace FarmAdvisor.Business
 {
@@ -17,7 +17,7 @@ namespace FarmAdvisor.Business
             ((IDisposable)_httpCLient).Dispose();
         }
 
-        public async Task<WeatherForecast?> GetLocationForecast(Sensor sensor)
+        public async Task<WeatherForecast?> GetLocationForecast(SensorModel sensor)
         {
             _httpCLient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36");
             try
