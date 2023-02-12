@@ -44,6 +44,8 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
 
         public DbSet<SensorModel> Sensors { get; set; }
 
+        public DbSet<SensorData> SensorDatas { get; set; }
+
         public DbSet<NotificationModel> Notifications { get; set; }
 
         public DbSet<FieldModel> Fields { get; set; }

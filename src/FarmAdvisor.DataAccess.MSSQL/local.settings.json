@@ -1,0 +1,10 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=.\\SQLEXPRESS;Initial Catalog=MyDatabase;Integrated Security=True;TrustServerCertificate=True;"
+  },
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+  }
+}
