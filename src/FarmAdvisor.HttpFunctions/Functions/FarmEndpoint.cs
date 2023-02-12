@@ -32,16 +32,16 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
 
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            string? userId = req.Headers["UserId"];
-            
+           
+
+
+            dynamic data = JsonConvert.DeserializeObject(requestBody);
+            string? userId = data?.userId;
+
             if (userId is null)
             {
                 return new NotFoundObjectResult("No user Id provided");
             }
-
-
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-
             string Name = data?.name;
             string PostCode = data?.postcode;
             string City = data?.city;

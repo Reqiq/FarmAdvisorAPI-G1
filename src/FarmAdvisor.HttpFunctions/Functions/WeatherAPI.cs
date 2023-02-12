@@ -7,7 +7,6 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using FarmAdvisor.DataAccess.MSSQL.Entities;
 using FarmAdvisor.Models.Models;
 using FarmAdvisor.DataAccess.MSSQL.Functions.Crud;
 using FarmAdvisor.DataAccess.MSSQL.DataContext;
@@ -38,7 +37,7 @@ namespace FarmAdvisor_HttpFunctions.Functions
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             if (Guid.TryParse(data.FieldID, out Guid id))
             {
-                var field = await _crud.Find<Field>(id); 
+                var field = await _crud.Find<FieldModel>(id); 
                 if (field != null)
                 {
                     using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
