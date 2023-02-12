@@ -3,7 +3,7 @@
     public class SensorModel
     {
         public Guid SensorId { get; set; }
-        public string? SerialNumber{ get; set; }
+        public string? SerialNumber { get; set; }
         public DateTime LastCommunication { get; set; }
 
         public int BatteryStatus { get; set; }
@@ -25,11 +25,11 @@
 
 
         public FieldModel? Field { get; set; }
-        public ICollection<UserModel>? Users { get; set; }    
+        //public ICollection<UserModel>? Users { get; set; }
 
 
 
 
 
-}
+    }
 }
