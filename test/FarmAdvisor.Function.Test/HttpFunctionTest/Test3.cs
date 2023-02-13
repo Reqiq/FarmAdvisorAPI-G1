@@ -29,7 +29,7 @@ namespace FarmAdvisor_HttpFunctions.Functions.Tests
             var userApi = new UserApi(crud.Object);
 
             // Act
-            var result = await userApi.AddUser(request.Object, logger.Object);
+            var result = await userApi.AddUser(request.Object);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
@@ -53,7 +53,7 @@ namespace FarmAdvisor_HttpFunctions.Functions.Tests
             var userApi = new UserApi(crud.Object);
 
             // Act
-            var result = await userApi.AddUser(request.Object, logger.Object);
+            var result = await userApi.AddUser(request.Object);
 
             // Assert
             Assert.IsType<ConflictObjectResult>(result);

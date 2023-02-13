@@ -25,10 +25,9 @@ namespace FarmAdvisor_HttpFunctions.Functions
 
         [FunctionName("AddUserApi")]
         public async Task<ActionResult<UserModel>> AddUser(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
-            ILogger log)
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+           
 
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
