@@ -11,24 +11,13 @@ using Microsoft.Extensions.Hosting;
 
 namespace Integration_Test
 {
-    public class App
-    {
-
-        public App()
-        {
-
-            var startup = new HttpFunctionStartup();
-            var host = new HostBuilder()
-                .ConfigureWebJobs(startup.Configure)
-                .Build();
-        }
-    }
+    
     public class IntegrationTest
 
     {
         protected readonly HttpClient httpClient;
         public IntegrationTest() {
-            var appFactory = new WebApplicationFactory<>(new App())
+            var appFactory = new WebApplicationFactory<FunctionsStartup>()
                 .WithWebHostBuilder(builder =>
                 {
                     builder.ConfigureServices(services =>
