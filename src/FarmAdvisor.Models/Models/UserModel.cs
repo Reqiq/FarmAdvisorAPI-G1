@@ -1,4 +1,5 @@
-﻿namespace FarmAdvisor.Models.Models
+﻿
+namespace FarmAdvisor.Models.Models
 {
     public class UserModel
     {

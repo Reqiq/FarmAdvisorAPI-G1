@@ -58,12 +58,12 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<UserModel>().ToTable("user");
             //Primary Key & Identity Column
             modelBuilder.Entity<UserModel>().HasKey(us => us.UserID);
-            modelBuilder.Entity<UserModel>().Property(us => us.UserID).HasColumnName("user_id");
+            modelBuilder.Entity<UserModel>().Property(us => us.UserID).HasColumnName("user_id").HasDefaultValue(new Guid());
             //COLUMN SETTINGS 
-            modelBuilder.Entity<UserModel>().Property(us => us.Name).HasMaxLength(100).HasColumnName("user_name");
-            modelBuilder.Entity<UserModel>().Property(us => us.Email).HasMaxLength(100).HasColumnName("email");
-            modelBuilder.Entity<UserModel>().Property(us => us.Phone).HasColumnName("phone_number");
-            modelBuilder.Entity<UserModel>().Property(us => us.AuthId).HasMaxLength(250).HasColumnName("auth_id");
+            modelBuilder.Entity<UserModel>().Property(us => us.Name).HasMaxLength(100).HasColumnName("user_name").HasDefaultValue("user");
+            modelBuilder.Entity<UserModel>().Property(us => us.Email).HasMaxLength(100).HasColumnName("email").HasDefaultValue("user@test.com");
+            modelBuilder.Entity<UserModel>().Property(us => us.Phone).HasColumnName("phone_number").HasDefaultValue(new Random(10).ToString());
+            modelBuilder.Entity<UserModel>().Property(us => us.AuthId).HasMaxLength(250).HasColumnName("auth_id").HasDefaultValue("token");
             /*modelBuilder.Entity<UserModel>().HasMany<FarmModel>(us => us.Farms)
                 .WithOne(us => us.User)
                 .HasForeignKey(us => us.FarmId)
