@@ -7,15 +7,28 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Drawing;
+using Microsoft.Extensions.Hosting;
 
 namespace Integration_Test
 {
+    public class App
+    {
+
+        public App()
+        {
+
+            var startup = new HttpFunctionStartup();
+            var host = new HostBuilder()
+                .ConfigureWebJobs(startup.Configure)
+                .Build();
+        }
+    }
     public class IntegrationTest
 
     {
         protected readonly HttpClient httpClient;
         public IntegrationTest() {
-            var appFactory = new WebApplicationFactory<FunctionsStartup>()
+            var appFactory = new WebApplicationFactory<>(new App())
                 .WithWebHostBuilder(builder =>
                 {
                     builder.ConfigureServices(services =>
